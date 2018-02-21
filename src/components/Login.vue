@@ -1,0 +1,100 @@
+<style scoped="">
+    .weui-grid.logo {
+        text-align: center;
+    }
+
+    .login-box {
+        margin-top: 25%;
+    }
+
+    .weui-grids:before {
+        border-top: none;
+    }
+
+    .weui-grid:after {
+        border-bottom: none
+    }
+
+    .custom-primary-red {
+        border-color: #CE3C39 !important;
+        color: #CE3C39 !important;
+    }
+</style>
+<template>
+    <div class="login-box">
+        <grid>
+            <grid-item class="logo">
+                <img src="../assets/logo.png" alt="">
+            </grid-item>
+        </grid>
+        <grid>
+            <grid-item class="form">
+                <x-input type="tel" title="手机" v-model="game_tel"></x-input>
+                <x-input type="password" title="密码" v-model="game_password"></x-input>
+            </grid-item>
+        </grid>
+        <grid>
+            <grid-item class="form">
+                <x-button plain type="primary" @click.native="login">登录</x-button>
+                <x-button plain class="custom-primary-red" @click.native="go_register">注册</x-button>
+            </grid-item>
+        </grid>
+    </div>
+</template>
+
+<script>
+    import {XInput, XButton, Grid, GridItem} from 'vux'
+
+    export default {
+        name: 'login',
+        data() {
+            return {
+                game_tel: '',
+                game_password: '',
+            }
+        },
+        created: function (event) {
+
+        },
+        methods: {
+            login() {
+                let data = new FormData()
+                data.append('tel', this.game_tel)
+                data.append('password', this.game_password)
+                this.axios.post(this.$store.state.base_url + 'user/login/', data).then((response) => {
+                        if (response.data.code === 404) {
+                            this.set_error_msg(response.data.msg)
+                            return false
+                        }
+                        let token = response.data.data.token;
+                        this.setCookie('token', token, 7)
+                        this.$store.state.user.tel = response.data.data.tel
+                        this.$store.state.user.nickname = response.data.data.nickname
+                        this.$router.push({
+                            name: 'Home',
+                        })
+
+                    }
+                )
+            },
+            go_path(id) {
+                this.$router.push({
+                    name: 'Mail',
+                })
+            },
+            go_register() {
+                this.$router.push({
+                    name: 'Register',
+                })
+            }
+        },
+        components: {
+            XInput,
+            XButton,
+            Grid,
+            GridItem
+        }
+    }
+</script>
+
+
