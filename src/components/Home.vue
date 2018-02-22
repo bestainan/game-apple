@@ -115,19 +115,7 @@
                 money: 0,
                 room_id: '',
                 options: ['账户余额', '支付宝'],
-                list: [{
-                    title: '洗颜新潮流！人气洁面皂排行榜',
-                    img: 'https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg'
-                }, {
-                    title: '美容用品 & 日用品（上）',
-                    img: 'https://cdn.xiaotaojiang.com/uploads/59/b22e0e62363a4a652f28630b3233b9/_.jpg'
-                }, {
-                    title: '远离车内毒气，日本车载空气净化器精选',
-                    img: 'https://cdn.xiaotaojiang.com/uploads/56/4b3601364b86fdfd234ef11d8712ad/_.jpg'
-                }]
             }
-        },
-        created: function (event) {
         },
         mounted() {
             this.$store.state.show_menu = true
@@ -141,12 +129,6 @@
             )
         },
         methods: {
-            demo01_onIndexChange(index) {
-                this.demo01_index = index
-            },
-            apply(game_id) {
-
-            }
         },
         components: {
             Masker, Swiper, GroupTitle, SwiperItem, XButton, Divider, Radio, Group, Popup, XInput

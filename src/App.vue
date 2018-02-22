@@ -51,18 +51,7 @@
             Group,
             Cell
         },
-        created: function (event) {
-            let token = this.getCookie('token');
-            this.axios.get(this.$store.state.base_url + 'user/token/?token=' + token).then((response) => {
-                    if (response.data.code !== 1) {
-                        this.$router.push({
-                            name: 'Login',
-                        })
-                        return false
-                    }
-                }
-            )
-        },
+        created: function (event) {},
     }
 
 </script>
