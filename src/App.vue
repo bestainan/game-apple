@@ -16,8 +16,8 @@
 </style>
 <template>
     <div id="app">
-        <toast :width="$store.state.toast_width" v-model="$store.state.show_error_msg" style="color: white;z-index: 1000;" type="text" :time="1000" is-show-mask :text="$store.state.error_msg" position="default"></toast>
-        <div v-show="$route.path != '/register/' && $route.path != '/login/' && $route.path != '/'">
+        <toast  v-model="$store.state.show_error_msg" style="color: white;z-index: 1000;" type="text" :time="1000" is-show-mask :text="$store.state.error_msg" position="default"></toast>
+        <div v-show="$store.state.show_menu">
             <tabbar style="position: fixed">
                 <tabbar-item link="/home/">
                     <span slot="label">首页</span>
@@ -58,20 +58,10 @@
                         this.$router.push({
                             name: 'Login',
                         })
-                    } else {
-                        this.$store.state.user.tel = response.data.tel
-                        this.$store.state.user.nickname = response.data.nickname
-                        this.$router.push({
-                            name: 'Home',
-                        })
+                        return false
                     }
                 }
             )
-            if (token) {
-                this.$router.push({
-                    name: 'Home',
-                })
-            }
         },
     }
 

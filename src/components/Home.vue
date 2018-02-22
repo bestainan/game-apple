@@ -112,8 +112,8 @@
                 swiperItemIndex: 1,
                 apply_game: false,
                 deposit_option: '账户余额',
-                money:0,
-                room_id:'',
+                money: 0,
+                room_id: '',
                 options: ['账户余额', '支付宝'],
                 list: [{
                     title: '洗颜新潮流！人气洁面皂排行榜',
@@ -128,6 +128,9 @@
             }
         },
         created: function (event) {
+        },
+        mounted() {
+            this.$store.state.show_menu = true
             this.axios.get(this.$store.state.base_url + 'game/rooms/').then((response) => {
                     this.rooms = response.data.data
                 }
@@ -136,7 +139,6 @@
                     this.banner_list = response.data.data
                 }
             )
-
         },
         methods: {
             demo01_onIndexChange(index) {
