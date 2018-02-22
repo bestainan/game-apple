@@ -5,7 +5,7 @@ import * as actions from './action'
 Vue.use(Vuex);
 const state = {
     is_alived: true,
-    base_url: 'http://tzadmin.jiuxingjinfu.cn/',
+    base_url: 'http://127.0.0.1:8000/',
     error_msg: '',
     show_error_msg: false,
     user:{
