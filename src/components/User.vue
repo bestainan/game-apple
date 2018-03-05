@@ -21,6 +21,7 @@
         padding-right: 0;
 
     }
+
 </style>
 <template>
     <div class="user-box">
@@ -29,9 +30,19 @@
             <cell is-link @click.native="show_money_type=true" :title="'余额'" :value="'100'"></cell>
         </group>
         <group>
-            <cell is-link @click.native="go_path">
-                <span slot="title"  style="color:green;"><span style="vertical-align:middle;">消息</span> <badge text="1"></badge></span>
+            <cell is-link @click.native="go_path('Mail')">
+                <span slot="title" ><span style="vertical-align:middle;">消息</span> <badge text="1"></badge></span>
             </cell>
+            <cell is-link @click.native="go_path('History')">
+                <span slot="title"><span>历史参与</span></span>
+            </cell>
+
+        </group>
+        <group>
+            <cell is-link @click.native="go_path('Invite')">
+                <span slot="title"  style="color:red;"><span>邀请赚钱</span></span>
+            </cell>
+
         </group>
         <div v-transfer-dom>
             <popup v-model="show_money_type" height="140px" is-transparent>
@@ -86,11 +97,13 @@
             }
         },
         created: function (event) {
+            this.$store.state.show_menu = true
+
         },
         methods: {
-            go_path(){
+            go_path(name){
                 this.$router.push({
-                    name: 'Mail',
+                    name: name,
                 })
             }
         },

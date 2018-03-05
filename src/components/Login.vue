@@ -24,7 +24,7 @@
     <div class="login-box">
         <grid>
             <grid-item class="logo">
-                <img src="../assets/logo.png" alt="">
+                <img src="../assets/logo.jpeg" style="width: 150px;" alt="">
             </grid-item>
         </grid>
         <grid>
@@ -68,6 +68,8 @@
                         }
                         let token = response.data.data.token;
                         this.setCookie('token', token, 7)
+                        this.$store.state.user.id = response.data.data.id
+                        this.$store.state.user.invite_code = response.data.data.invite_code
                         this.$store.state.user.tel = response.data.data.tel
                         this.$store.state.user.nickname = response.data.data.nickname
                         this.$router.push({

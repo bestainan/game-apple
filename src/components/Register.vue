@@ -40,14 +40,17 @@
     .vux-step {
         margin-top: 50px;
     }
+    .vux-step-item-main.vux-step-item-main-process{
+        color: rgb(247, 247, 247) !important;
+    }
 </style>
 <template>
     <div class="register-box">
         <grid>
             <grid-item class="form">
-                <step v-model="step" gutter="20px">
-                    <step-item :title="'验证手机'"></step-item>
-                    <step-item :title="'基本资料'"></step-item>
+                <step v-model="step" gutter="20px" background-color='rgb(247, 247, 247)'>
+                    <step-item style="background-color: rgb(247, 247, 247)" :title="'验证手机'"></step-item>
+                    <step-item style="background-color: rgb(247, 247, 247)" :title="'基本资料'"></step-item>
                 </step>
             </grid-item>
         </grid>
@@ -66,6 +69,7 @@
                 <grid-item>
                     <group>
                         <x-input type="text" label-width="6em" title="昵称" v-model="submit_form.nickname"></x-input>
+                        <x-input type="text" label-width="6em" title="邀请人" v-model="submit_form.invite_code"></x-input>
                         <x-input type="password" label-width="6em" title="密码" v-model="submit_form.password1"></x-input>
                         <x-input type="password" label-width="6em" title="确认密码" v-model="submit_form.password2"></x-input>
                     </group>
@@ -114,6 +118,7 @@
                     bank_name: '',
                     card_account: '',
                     card_name: '',
+                    invite_code: '',
                 }
 
             }
@@ -147,6 +152,8 @@
                                 this.setCookie('token', token, 7)
                                 this.$store.state.user.tel = response.data.tel
                                 this.$store.state.user.nickname = response.data.nickname
+                                this.$store.state.user.id = response.data.data.id
+                                this.$store.state.user.invite_code = response.data.data.invite_code
                                 this.$router.push({
                                     name: 'Home',
                                 })

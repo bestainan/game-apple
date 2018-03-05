@@ -5,6 +5,9 @@
     .weui-media-box__info{
         padding:0;
     }
+    .weui-media-box__title{
+        margin-top:0;
+    }
     /*.weui-media-box{*/
     /*padding-top:0 !important;*/
     /*padding-bottom:0 !important;*/

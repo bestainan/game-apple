@@ -1,6 +1,7 @@
 <style scoped="">
     @import '/static/css/main.css';
     @import '//at.alicdn.com/t/font_500566_bjrs7ewc16as8aor.css';
+
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -16,12 +17,15 @@
 </style>
 <template>
     <div id="app">
-        <toast  v-model="$store.state.show_error_msg" style="color: white;z-index: 1000;" type="text" :time="1000" is-show-mask :text="$store.state.error_msg" position="default"></toast>
+        <toast v-model="$store.state.show_error_msg" style="color: white;z-index: 1000;" type="text" :time="1000" is-show-mask :text="$store.state.error_msg" position="default"></toast>
         <div v-show="$store.state.show_menu">
             <tabbar style="position: fixed">
-                <tabbar-item link="/home/">
+                <tabbar-item link="/">
                     <span slot="label">首页</span>
                 </tabbar-item>
+                <!--<tabbar-item badge="2" style="border-left: 1px solid #f0f0f0;" link="/rank/">-->
+                <!--<span slot="label">排行</span>-->
+                <!--</tabbar-item>-->
                 <tabbar-item badge="2" style="border-left: 1px solid #f0f0f0;" link="/user/">
                     <span slot="label">我的</span>
                 </tabbar-item>
@@ -51,7 +55,31 @@
             Group,
             Cell
         },
-        created: function (event) {},
+        created: function (event) {
+            let token = this.getCookie('token')
+            if (token) {
+                this.axios.get(this.$store.state.base_url + 'user/token/?token=' + token).then((response) => {
+                        let data = response.data.data
+                        this.$store.state.user = {
+                        	id:data.id,
+                            tel: data.tel,
+                            nickname: data.nickname,
+                            invite_code: data.invite_code
+                        }
+                        console.log(this.$store.state.user)
+
+                    }
+                )
+            } else {
+                this.$router.push({
+                    name: 'Login',
+                })
+            }
+
+
+//            this.$store.state.user.tel = response.data.data.tel
+//            this.$store.state.user.nickname = response.data.data.nickname
+        },
     }
 
 </script>

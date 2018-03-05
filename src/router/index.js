@@ -1,6 +1,5 @@
-
 export default new VueRouter({
-    mode:'history',
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -8,6 +7,22 @@ export default new VueRouter({
             component: resolve => require(['../components/Home.vue'], resolve),
             meta: {
                 title: '首页',
+            },
+        },
+        {
+            path: '/rooms/:game_id',
+            name: 'Rooms',
+            component: resolve => require(['../components/Rooms.vue'], resolve),
+            meta: {
+                title: '房间信息',
+            },
+        },
+        {
+            path: '/room/info/:room_id',
+            name: 'RoomInfo',
+            component: resolve => require(['../components/RoomInfo.vue'], resolve),
+            meta: {
+                title: '房间信息',
             },
         },
         {
@@ -38,6 +53,30 @@ export default new VueRouter({
             path: '/mail/',
             name: 'Mail',
             component: resolve => require(['../components/Mail.vue'], resolve),
+            meta: {
+                title: '消息',
+            },
+        },
+        {
+            path: '/rank/',
+            name: 'Rank',
+            component: resolve => require(['../components/Rank.vue'], resolve),
+            meta: {
+                title: '消息',
+            },
+        },
+        {
+            path: '/invite/',
+            name: 'Invite',
+            component: resolve => require(['../components/Invite.vue'], resolve),
+            meta: {
+                title: '消息',
+            },
+        },
+        {
+            path: '/history/',
+            name: 'History',
+            component: resolve => require(['../components/History.vue'], resolve),
             meta: {
                 title: '消息',
             },
