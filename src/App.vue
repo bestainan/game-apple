@@ -60,7 +60,6 @@
             if (token) {
                 this.axios.get(this.$store.state.base_url + 'user/token/?token=' + token)
                 .then((response) => {
-                        console.log('1234qwer')
                         let data = response.data.data
                         this.$store.state.user = {
                             id: data.id,
