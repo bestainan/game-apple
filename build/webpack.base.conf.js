@@ -12,13 +12,6 @@ const originalConfig = {
     entry: {
         app: './src/main.js'
     },
-    externals:{
-        'BMap': 'BMap',
-        'vue': 'Vue',
-        'vue-router': 'VueRouter',
-        'axios': 'axios',
-        'Jquery': 'Jquery'
-    },
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',

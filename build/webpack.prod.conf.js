@@ -13,11 +13,6 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const env = config.build.env
 
 const webpackConfig = merge(baseWebpackConfig, {
-    externals: {
-        'vue': 'Vue',
-        'vue-router': 'VueRouter',
-        'axios': 'axios'
-    },
 
     module: {
         rules: utils.styleLoaders({

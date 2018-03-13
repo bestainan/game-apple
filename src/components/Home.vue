@@ -98,11 +98,11 @@
 <template>
     <div class="home-box">
         <div>
-            <swiper :list="banner_list" auto="true" loop="true"></swiper>
+            <swiper :list="banner_list" :auto="true" :loop="true"></swiper>
         </div>
         <group>
             <group-title color="#333">游戏分类</group-title>
-            <grid cols="4">
+            <grid :cols="4">
                 <grid-item :label="item.name" @click.native="go_rooms(item.id)" v-for="item in game_list" :key="item.id">
                     <img slot="icon"
                          src="/static/img/wangzherongyao.jpg">

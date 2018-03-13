@@ -22,6 +22,7 @@
 </style>
 <template>
     <div class="login-box">
+        {{err}}
         <grid>
             <grid-item class="logo">
                 <img src="../assets/logo.jpeg" style="width: 150px;" alt="">
@@ -44,24 +45,26 @@
 
 <script>
     import {XInput, XButton, Grid, GridItem} from 'vux'
-
+    import axios from 'axios'
     export default {
         name: 'login',
         data() {
             return {
                 game_tel: '',
+                err: '',
                 game_password: '',
             }
         },
-        created: function (event) {
-
-        },
+        created: function (event) {},
         methods: {
             login() {
                 let data = new FormData()
                 data.append('tel', this.game_tel)
                 data.append('password', this.game_password)
-                this.axios.post(this.$store.state.base_url + 'user/login/', data).then((response) => {
+                this.err = '1'
+                axios.post(this.$store.state.base_url + 'user/login/', data)
+                .then((response) => {
+                        this.err = '2'
                         if (response.data.code === 404) {
                             this.set_error_msg(response.data.msg)
                             return false
@@ -77,7 +80,9 @@
                         })
 
                     }
-                )
+                ).catch(function (error) {
+                    console.log(error);
+                })
             },
             go_path(id) {
                 this.$router.push({

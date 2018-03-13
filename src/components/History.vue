@@ -69,7 +69,7 @@
 <template>
     <div class="history-box">
         <div>
-            <form-preview v-for="item in datas" :header-label="'报名费'" :header-value="'¥'+item.money" :body-items="item.values_list" :footer-buttons="go_info" name="demo"></form-preview>
+            <form-preview :key="item" v-for="item in datas" :header-label="'报名费'" :header-value="'¥'+item.money" :body-items="item.values_list" :footer-buttons="go_info" name="demo"></form-preview>
         </div>
     </div>
 </template>

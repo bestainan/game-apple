@@ -96,7 +96,7 @@
     <div class="room-info-box">
         <div>
             <div>
-                <swiper :list="[{url: '',img: data.pic,title: data.name}]" auto="true" loop="true"></swiper>
+                <swiper :list="[{url: '',img: data.pic,title: data.name}]" :auto="true" :loop="true"></swiper>
             </div>
             <group class="info">
                 <group-title>报名详情</group-title>
@@ -179,7 +179,6 @@
                     data.append('user_id', this.$store.state.user.id)
                     this.axios.post(this.$store.state.base_url + 'game/room_apply/alipay/', data).then((response) => {
                             let res = response.data.data
-//                        console.log('https://openapi.alipay.com/gateway.do?' + res.signed_string)
                             window.location.href = 'https://openapi.alipay.com/gateway.do?' + res.signed_string
                         }
                     )

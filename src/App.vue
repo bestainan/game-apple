@@ -39,12 +39,12 @@
 
 
     import {Tabbar, TabbarItem, Group, Cell, Toast, Loading} from 'vux'
-
     export default {
         name: 'app',
         data() {
             return {
-                show_menu: false
+                show_menu: false,
+                error: ''
             }
         },
         components: {
@@ -56,12 +56,14 @@
             Cell
         },
         created: function (event) {
+
             let token = this.getCookie('token')
             if (token) {
-                this.axios.get(this.$store.state.base_url + 'user/token/?token=' + token).then((response) => {
+                this.axios.get(this.$store.state.base_url + 'user/token/?token=' + token)
+                .then((response) => {
                         let data = response.data.data
                         this.$store.state.user = {
-                        	id:data.id,
+                            id: data.id,
                             tel: data.tel,
                             nickname: data.nickname,
                             invite_code: data.invite_code

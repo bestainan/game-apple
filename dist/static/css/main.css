@@ -1,0 +1,36 @@
+html {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif, "SimSun";
+    background: rgb(247, 247, 247);
+}
+
+body {
+    margin: 0;
+}
+
+h3 {
+    margin: 0.2rem 0;
+    font-size: 0.28rem;
+    color: #4d4136;
+}
+
+.clear {
+    clear: both !important;
+}
+
+a {
+    text-decoration: none;
+    out-line: none;
+    color: #333;
+}
+
+.weui-tabbar__label {
+    margin-top: 0;
+}
+
+.weui-toast.weui-toast_text{
+    width: auto !important;
+    padding: 0 10px !important;
+}
