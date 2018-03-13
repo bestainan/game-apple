@@ -6,7 +6,7 @@ Vue.use(Vuex);
 const state = {
     is_alived: true,
     // base_url: 'http://192.168.0.104:8000/',
-    base_url: 'http://tzadmin.jiuxingjinfu.com/',
+    base_url: 'http://tzadmin.jiuxingjinfu.cn/',
     show_menu:'',
     error_msg: '',
     show_error_msg: false,
