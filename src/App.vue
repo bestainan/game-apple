@@ -56,11 +56,11 @@
             Cell
         },
         created: function (event) {
-
             let token = this.getCookie('token')
             if (token) {
                 this.axios.get(this.$store.state.base_url + 'user/token/?token=' + token)
                 .then((response) => {
+                        console.log('1234qwer')
                         let data = response.data.data
                         this.$store.state.user = {
                             id: data.id,
@@ -68,8 +68,6 @@
                             nickname: data.nickname,
                             invite_code: data.invite_code
                         }
-                        console.log(this.$store.state.user)
-
                     }
                 )
             } else {
