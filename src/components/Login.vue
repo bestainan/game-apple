@@ -56,6 +56,7 @@
         created: function (event) {},
         methods: {
             login() {
+                this.$store.state.show_menu = false
                 let data = new FormData()
                 data.append('tel', this.game_tel)
                 data.append('password', this.game_password)
@@ -67,7 +68,6 @@
                         }
                         let token = response.data.data.token;
                         this.setCookie('token', token, 3)
-                        console.log(response.data.data)
                         this.$store.state.user.id = response.data.data.id
                         this.$store.state.user.invite_code = response.data.data.invite_code
                         this.$store.state.user.tel = response.data.data.tel

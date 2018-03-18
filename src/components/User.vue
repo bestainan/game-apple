@@ -42,6 +42,9 @@
             <cell is-link @click.native="go_path('Invite')">
                 <span slot="title"  style="color:red;"><span>邀请赚钱</span></span>
             </cell>
+            <cell is-link @click.native="logout">
+                <span slot="title"  style="color:red;"><span>退出当前账号</span></span>
+            </cell>
 
         </group>
         <div v-transfer-dom>
@@ -100,7 +103,20 @@
             this.$store.state.show_menu = true
 
         },
+
         methods: {
+            logout(){
+                this.$store.state.show_menu = false
+                this.setCookie('token', '', 1);
+                this.$store.state.user.id = '';
+                this.$store.state.user.invite_code = '';
+                this.$store.state.user.tel = '';
+                this.$store.state.user.nickname = '';
+
+                this.$router.push({
+                    name: 'Login',
+                })
+            },
             go_path(name){
                 this.$router.push({
                     name: name,
