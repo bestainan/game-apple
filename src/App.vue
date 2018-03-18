@@ -55,30 +55,7 @@
             Group,
             Cell
         },
-        created: function (event) {
-            let token = this.getCookie('token')
-            if (token) {
-                this.axios.get(this.$store.state.base_url + 'user/token/?token=' + token)
-                .then((response) => {
-                        let data = response.data.data
-                        this.$store.state.user = {
-                            id: data.id,
-                            tel: data.tel,
-                            nickname: data.nickname,
-                            invite_code: data.invite_code
-                        }
-                    }
-                )
-            } else {
-                this.$router.push({
-                    name: 'Login',
-                })
-            }
-
-
-//            this.$store.state.user.tel = response.data.data.tel
-//            this.$store.state.user.nickname = response.data.data.nickname
-        },
+        created: function (event) {},
     }
 
 </script>

@@ -26,7 +26,7 @@
 <template>
     <div class="user-box">
         <group>
-            <cell :title="'昵称'" :value="'robot'"></cell>
+            <cell title="昵称" :value="'robot'"></cell>
             <cell is-link @click.native="show_money_type=true" :title="'余额'" :value="'100'"></cell>
         </group>
         <group>

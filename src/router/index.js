@@ -8,6 +8,7 @@ export default new VueRouter({
             component: resolve => require(['../components/Home.vue'], resolve),
             meta: {
                 title: '首页',
+                require_login:true,
             },
         },
         {
@@ -15,7 +16,8 @@ export default new VueRouter({
             name: 'Rooms',
             component: resolve => require(['../components/Rooms.vue'], resolve),
             meta: {
-                title: '房间信息',
+                title: '游戏信息',
+                require_login:true,
             },
         },
         {
@@ -24,62 +26,77 @@ export default new VueRouter({
             component: resolve => require(['../components/RoomInfo.vue'], resolve),
             meta: {
                 title: '房间信息',
+                require_login:true,
             },
         },
         {
-            path: '/login/',
+            path: '/login',
             name: 'Login',
             component: resolve => require(['../components/Login.vue'], resolve),
             meta: {
                 title: '登录',
+                require_login:false,
+
             },
         },
         {
-            path: '/register/',
+            path: '/register',
             name: 'Register',
             component: resolve => require(['../components/Register.vue'], resolve),
             meta: {
                 title: '注册',
+                require_login:false,
+
             },
         },
         {
-            path: '/user/',
+            path: '/user',
             name: 'User',
             component: resolve => require(['../components/User.vue'], resolve),
             meta: {
                 title: '个人中心',
+                require_login:true,
+
             },
         },
         {
-            path: '/mail/',
+            path: '/mail',
             name: 'Mail',
             component: resolve => require(['../components/Mail.vue'], resolve),
             meta: {
                 title: '消息',
+                require_login:true,
+
             },
         },
         {
-            path: '/rank/',
+            path: '/rank',
             name: 'Rank',
             component: resolve => require(['../components/Rank.vue'], resolve),
             meta: {
                 title: '消息',
+                require_login:true,
+
             },
         },
         {
-            path: '/invite/',
+            path: '/invite',
             name: 'Invite',
             component: resolve => require(['../components/Invite.vue'], resolve),
             meta: {
                 title: '消息',
+                require_login:true,
+
             },
+
         },
         {
-            path: '/history/',
+            path: '/history',
             name: 'History',
             component: resolve => require(['../components/History.vue'], resolve),
             meta: {
                 title: '消息',
+                require_login:true,
             },
         },
     ]

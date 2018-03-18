@@ -23,7 +23,32 @@ Vue.use(Vuex);
 Vue.use(util);
 Vue.use(VueWechatTitle)
 
-
+const getCookie = function (cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1);
+        if (c.indexOf(name) !== -1)
+            return c.substring(name.length, c.length);
+    }
+    return "";
+};
+router.beforeEach((to, from, next) => {
+    if (to.meta.require_login) {
+        let token = getCookie('token');
+        if (token.length > 1) {
+            next();
+        } else {
+            next({
+                path: '/login',
+                // query: {redirect: to.fullPath}
+            })
+        }
+    } else {
+        next()
+    }
+});
 new Vue({
     el: '#app',
     router,
