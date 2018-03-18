@@ -37,7 +37,18 @@ const getCookie = function (cname) {
 router.beforeEach((to, from, next) => {
     if (to.meta.require_login) {
         let token = getCookie('token');
-        if (token.length > 1) {
+        if (token.length > 2) {
+            axios.get(store.state.base_url + 'user/token/?token=' + token)
+            .then((response) => {
+                    let data = response.data.data
+                    store.state.user = {
+                        id: data.id,
+                        tel: data.tel,
+                        nickname: data.nickname,
+                        invite_code: data.invite_code
+                    }
+                }
+            );
             next();
         } else {
             next({

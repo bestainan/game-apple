@@ -103,7 +103,7 @@
         data() {
             return {
 //              归零
-                step: 0,
+                step: 1,
                 v_code_text: '发送验证码',
                 count: 60,
                 submit_form: {

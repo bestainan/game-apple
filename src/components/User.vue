@@ -45,7 +45,6 @@
             <cell is-link @click.native="logout">
                 <span slot="title"  style="color:red;"><span>退出当前账号</span></span>
             </cell>
-
         </group>
         <div v-transfer-dom>
             <popup v-model="show_money_type" height="140px" is-transparent>
@@ -84,7 +83,7 @@
 </template>
 
 <script>
-    import {Cell, Group, Badge, Popup, TransferDom, XSwitch, XButton, XInput, Radio} from 'vux'
+    import {Cell,CellBox, Group, Badge, Popup, TransferDom, XSwitch, XButton, XInput, Radio} from 'vux'
 
     export default {
         name: 'login',
@@ -124,7 +123,7 @@
             }
         },
         components: {
-            Cell, Group, Badge, Popup, XSwitch, TransferDom, XInput, XButton, Radio
+            Cell, Group, CellBox,Badge, Popup, XSwitch, TransferDom, XInput, XButton, Radio
         }
     }
 </script>
