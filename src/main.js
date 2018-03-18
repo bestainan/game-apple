@@ -11,8 +11,8 @@ import VueWechatTitle from 'vue-wechat-title';
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 
-const FastClick = require('fastclick')
-FastClick.attach(document.body)
+const FastClick = require('fastclick');
+FastClick.attach(document.body);
 
 
 Vue.use(VueAxios, axios);
@@ -21,7 +21,7 @@ Vue.use(VueRouter);
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 Vue.use(util);
-Vue.use(VueWechatTitle)
+Vue.use(VueWechatTitle);
 
 const getCookie = function (cname) {
     let name = cname + "=";
@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
         if (token.length > 2) {
             axios.get(store.state.base_url + 'user/token/?token=' + token)
             .then((response) => {
-                    let data = response.data.data
+                    let data = response.data.data;
                     store.state.user = {
                         id: data.id,
                         tel: data.tel,
