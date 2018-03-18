@@ -175,6 +175,7 @@
 
                 } else {
                     let data = new FormData()
+                    console.log(this.$store.state.user);
                     data.append('room_id', this.room_id)
                     data.append('user_id', this.$store.state.user.id)
                     this.axios.post(this.$store.state.base_url + 'game/room_apply/alipay/', data).then((response) => {
