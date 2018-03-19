@@ -22,11 +22,11 @@
 </style>
 <template>
     <div class="login-box">
-        <grid>
-            <grid-item class="logo">
-                <img src="../assets/logo.jpeg" style="width: 150px;" alt="">
-            </grid-item>
-        </grid>
+        <!--<grid>-->
+            <!--<grid-item class="logo">-->
+                <!--<img src="../assets/logo.jpeg" style="width: 150px;" alt="">-->
+            <!--</grid-item>-->
+        <!--</grid>-->
         <grid>
             <grid-item class="form">
                 <x-input type="tel" title="手机" v-model="game_tel"></x-input>
