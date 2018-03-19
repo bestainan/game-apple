@@ -132,11 +132,11 @@
                 </tabbar-item>
             </tabbar>
             <popup class="get-money" v-model="show_apply" height="auto" is-transparent>
-                <div style="background-color:#fff;height:250px;">
+                <div style="background-color:#fff;height:156px;">
                     <group>
                         <radio id="title" title="title" :options="options" v-model="deposit_option"></radio>
                     </group>
-                    <span style="margin-left: 15px;padding-top: 15px;display: inline-block;">支付金额：<span style="color: orangered; font-weight: bold">{{money}}</span></span>
+                    <span style="margin-left: 15px;padding-top: 15px;display: inline-block;">支付金额：<span style="color: orangered; font-weight: bold">{{data.apply_money}}</span></span>
                     <div style="padding:0 15px;">
                         <x-button style="margin-top: 15px;" type="primary" @click.native="apply">支付并报名</x-button>
                     </div>
