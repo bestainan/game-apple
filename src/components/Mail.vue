@@ -1,7 +1,4 @@
 <style>
-    .Mail-box {
-        padding: 15px 20px;
-    }
     .weui-media-box__info{
         padding:0;
     }
@@ -36,27 +33,32 @@
                 selectd: 'all',
                 type: '4',
                 list: [
-                    {
-                        title: '标题一',
-                        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
-//                        url: {
-//                            name: 'MailInfo',
-//                            params: {id: 123}
-//
-//                        },
-                    },
-                    {
-                        title: '标题二',
-                        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
+//                     {
+//                         title: '标题一',
+//                         desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
+// //                        url: {
+// //                            name: 'MailInfo',
+// //                            params: {id: 123}
+// //
+// //                        },
+//                     },
+//                     {
+//                         title: '标题二',
+//                         desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
 //                        meta: {
 //                            date: '2017-01-01',
 //                        }
-                    },
+//                     },
 
                 ],
             }
         },
-        created: function (event) {
+        mounted() {
+            this.$store.state.show_menu = true
+            this.axios.get(this.$store.state.base_url + 'user/mail/').then((response) => {
+                    this.list = response.data
+                }
+            )
         },
         methods: {
             onImgError(item, $event) {

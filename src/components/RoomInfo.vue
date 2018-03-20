@@ -127,8 +127,12 @@
                 </div>
             </group>
             <tabbar style="position: fixed">
-                <tabbar-item @click.native="show_apply=true">
-                    <span slot="label">报名</span>
+
+                <tabbar-item v-if='!data.has_apply' @click.native="show_apply=true">
+                    <span slot="label" style="color: white;font-size: 20px;">报名</span>
+                </tabbar-item>
+                <tabbar-item v-if='data.has_apply'>
+                    <span slot="label" style="color: white;font-size: 20px;">已报名</span>
                 </tabbar-item>
             </tabbar>
             <popup class="get-money" v-model="show_apply" height="auto" is-transparent>
@@ -136,18 +140,19 @@
                     <group>
                         <radio id="title" title="title" :options="options" v-model="deposit_option"></radio>
                     </group>
-                    <span style="margin-left: 15px;padding-top: 15px;display: inline-block;">支付金额：<span style="color: orangered; font-weight: bold">{{data.apply_money}}</span></span>
+                    <span style="margin-left: 15px;padding-top: 15px;display: inline-block;">支付金额：<span style="color: orangered; font-weight: bold">活动免费</span></span>
                     <div style="padding:0 15px;">
                         <x-button style="margin-top: 15px;" type="primary" @click.native="apply">支付并报名</x-button>
                     </div>
                 </div>
             </popup>
+            <toast v-model="show8" type="success" text="Hello World"></toast>
         </div>
     </div>
 </template>
 
 <script>
-    import {Tabbar, TabbarItem, Radio, Group, GroupTitle, Popup, XButton, Swiper, SwiperItem,} from 'vux'
+    import {Toast, Tabbar, TabbarItem, Radio, Group, GroupTitle, Popup, XButton, Swiper, SwiperItem,} from 'vux'
 
     export default {
         name: 'login',
@@ -158,35 +163,52 @@
                 apply_game: false,
                 deposit_option: '支付宝',
                 money: 0,
+                show8: false,
                 room_id: '',
                 options: ['支付宝'],
             }
         },
         mounted() {
             this.room_id = this.$route.params.room_id;
-            this.axios.get(this.$store.state.base_url + 'game/room/?room_id=' + this.room_id).then((response) => {
-                    this.data = response.data.data
+            let token = this.getCookie('token')
+            this.axios.get(this.$store.state.base_url + 'game/room/?room_id=' + this.room_id + '&token=' + token).then((response) => {
+                    this.data = response.data
                 }
             )
         },
         methods: {
-            apply(){
-                if (this.deposit_option === '账户余额') {
-
-                } else {
-                    let data = new FormData()
-                    data.append('room_id', this.room_id)
-                    data.append('user_id', this.$store.state.user.id)
-                    this.axios.post(this.$store.state.base_url + 'game/room_apply/alipay/', data).then((response) => {
-                            let res = response.data.data
-                            window.location.href = 'https://openapi.alipay.com/gateway.do?' + res.signed_string
+            apply() {
+                let data = new FormData()
+                data.append('room_id', this.room_id)
+                data.append('user_id', this.$store.state.user.id)
+                this.axios.post(this.$store.state.base_url + 'game/room_apply/alipay/', data).then((response) => {
+                        let res = response.data;
+                        if (res.code !== 1) {
+                            this.set_error_msg(res.msg)
+                        } else {
+                            this.show8 = true
+                            this.show_apply = false
+                            this.data.has_apply = true
                         }
-                    )
-                }
+                        // window.location.href = 'https://openapi.alipay.com/gateway.do?' + res.signed_string
+                    }
+                )
+                // if (this.deposit_option === '账户余额') {
+                //
+                // } else {
+                //     let data = new FormData()
+                //     data.append('room_id', this.room_id)
+                //     data.append('user_id', this.$store.state.user.id)
+                //     this.axios.post(this.$store.state.base_url + 'game/room_apply/alipay/', data).then((response) => {
+                //             let res = response.data.data
+                //             window.location.href = 'https://openapi.alipay.com/gateway.do?' + res.signed_string
+                //         }
+                //     )
+                // }
             }
         },
         components: {
-            Tabbar, TabbarItem, Radio, Group, Popup, XButton, Swiper, SwiperItem, GroupTitle
+            Tabbar, TabbarItem, Radio, Group, Popup, XButton, Swiper, SwiperItem, GroupTitle, Toast
         }
 
     }

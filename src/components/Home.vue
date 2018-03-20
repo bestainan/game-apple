@@ -87,10 +87,6 @@
         border-bottom: none !important;
     }
 
-    .weui-cells.vux-no-group-title {
-        margin-bottom: 50px;
-    }
-
     .hot {
         margin-top: -30px;
     }
@@ -104,8 +100,7 @@
             <group-title color="#333">游戏分类</group-title>
             <grid :cols="4">
                 <grid-item :label="item.name" @click.native="go_rooms(item.id)" v-for="item in game_list" :key="item.id">
-                    <img slot="icon"
-                         src="/static/img/wangzherongyao.jpg">
+                    <img slot="icon" src="/static/img/wangzherongyao.jpg">
                 </grid-item>
             </grid>
         </group>
@@ -121,7 +116,6 @@
                         <span class="m-time">人数：{{room.current_count}}/{{room.max_count}} </span>
                         <span class="m-time">报名费：{{room.apply_money}} </span>
                         <span class="m-time">状态：进行中 </span>
-
                     </div>
                 </masker>
             </div>
@@ -144,15 +138,15 @@
         mounted() {
             this.$store.state.show_menu = true
             this.axios.get(this.$store.state.base_url + 'game/banners/').then((response) => {
-                    this.banner_list = response.data.data
+                    this.banner_list = response.data
                 }
             )
             this.axios.get(this.$store.state.base_url + 'game/games/?hot=1').then((response) => {
-                    this.game_list = response.data.data
+                    this.game_list = response.data
                 }
             )
             this.axios.get(this.$store.state.base_url + 'game/rooms/?hot=1').then((response) => {
-                    this.rooms = response.data.data
+                    this.rooms = response.data
                 }
             )
         },

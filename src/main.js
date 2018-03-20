@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
         if (token.length > 2) {
             axios.get(store.state.base_url + 'user/token/?token=' + token)
             .then((response) => {
-                    let data = response.data.data;
+                    let data = response.data;
                     store.state.user = {
                         id: data.id,
                         tel: data.tel,

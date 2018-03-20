@@ -27,7 +27,8 @@
     <div class="user-box">
         <group>
             <cell title="昵称" :value="'robot'"></cell>
-            <cell is-link @click.native="show_money_type=true" :title="'余额'" :value="'100'"></cell>
+            <!--<cell is-link @click.native="show_money_type=true" :title="'余额'" :value="'100'"></cell>-->
+            <cell  :title="'余额'" :value="'100'"></cell>
         </group>
         <group>
             <cell is-link @click.native="go_path('Mail')">
@@ -84,9 +85,11 @@
 
 <script>
     import {Cell,CellBox, Group, Badge, Popup, TransferDom, XSwitch, XButton, XInput, Radio} from 'vux'
-
     export default {
         name: 'login',
+        directives: {
+            TransferDom
+        },
         data() {
             return {
                 show_money_type: false,
@@ -111,7 +114,6 @@
                 this.$store.state.user.invite_code = '';
                 this.$store.state.user.tel = '';
                 this.$store.state.user.nickname = '';
-
                 this.$router.push({
                     name: 'Login',
                 })

@@ -110,13 +110,13 @@
 
             this.$store.state.show_menu = true
             let game_id = this.$route.params.game_id;
-            console.log(game_id)
+
             this.axios.get(this.$store.state.base_url + 'game/rooms/?game_id=' + game_id).then((response) => {
-                    this.rooms = response.data.data
+                    this.rooms = response.data
                 }
             )
             this.axios.get(this.$store.state.base_url + 'game/banners/').then((response) => {
-                    this.banner_list = response.data.data
+                    this.banner_list = response.data
                 }
             )
         },

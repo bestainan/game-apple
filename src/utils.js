@@ -15,7 +15,7 @@ const set_error_msg = function (msg) {
 //     }
 // }
 
-// import axios from 'axios'
+import axios from 'axios'
 
 const setCookie = function (cname, cvalue, exdays) {
     let d = new Date();
@@ -53,29 +53,33 @@ const getCookie = function (cname) {
 // ]
 //
 // axios.defaults.withCredentials = true
-// axios.interceptors.request.use(
-//     config => {
-//         $.each(ALL_Path, function (index, value) {
-//             if (config.url.indexOf(value) >= 0) {
-//
-//                 if (config.method === 'post' || config.method === 'patch') {
-//                     config.data.append('robot', getCookie('access_token'))
-//                     config.data.append('user_id', getCookie('user_id'))
-//                 } else if (config.method === 'get' || config.method === 'delete') {
-//                     config.params = {
-//                         robot: getCookie('access_token'),
-//                         user_id: getCookie('user_id'),
-//                         ...config.params
-//                     }
-//                 }
-//             }
-//         });
-//         return config
-//     }, function (error) {
-//         return Promise.reject(error)
-//     }
-// )
-//
+axios.interceptors.request.use(
+    config => {
+        if (config.method === 'post' || config.method === 'patch') {
+            config.data.append('token', getCookie('token'))
+        } else if (config.method === 'get' || config.method === 'delete') {
+            config.params = {
+                token: getCookie('token'),
+                ...config.params
+            }
+        }
+        return config
+    }, function (error) {
+        return Promise.reject(error)
+    }
+)
+import router from './router'
+
+axios.interceptors.response.use((response) => {
+    let data = response.data
+    if (data.code === 10001){
+        router.push({
+            name: 'Login',
+        })
+    }
+    return data
+
+}, (err) => {})
 // const ChangePage = function (val) {
 //     store.state.offset = (val-1) * 10;
 // }

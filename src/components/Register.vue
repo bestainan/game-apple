@@ -19,14 +19,6 @@
         border-bottom: none
     }
 
-    .form {
-        margin-top: 50px;
-        margin-bottom: 100px;
-    }
-
-    .form {
-        margin-top: 100px;
-    }
 
     .weui-label {
         width: 200px !important;
@@ -96,7 +88,7 @@
 </template>
 
 <script>
-    import {Step, StepItem, XButton, XInput, ButtonTab, ButtonTabItem} from 'vux'
+    import {Step, StepItem, XButton, XInput, ButtonTab, ButtonTabItem,GridItem,Grid, Group} from 'vux'
 
     export default {
         name: 'register',
@@ -145,15 +137,17 @@
                         data.append(key, this.submit_form[key]);
                     }
                     this.axios.post(this.$store.state.base_url + 'user/register/', data).then((response) => {
-                            if (response.data.code !== 1) {
-                                this.set_error_msg(response.data.msg)
+                            console.log(response)
+                            if (response.code !== 1) {
+                                this.set_error_msg(response.msg)
                             } else {
-                                let token = response.data.data.token;
+                                console.log(response.data)
+                                let token = response.data.token;
                                 this.setCookie('token', token, 7)
                                 this.$store.state.user.tel = response.data.tel
                                 this.$store.state.user.nickname = response.data.nickname
-                                this.$store.state.user.id = response.data.data.id
-                                this.$store.state.user.invite_code = response.data.data.invite_code
+                                this.$store.state.user.id = response.data.id
+                                this.$store.state.user.invite_code = response.data.invite_code
                                 this.$router.push({
                                     name: 'Home',
                                 })
@@ -166,8 +160,8 @@
                         return false
                     } else {
                         this.axios.get(this.$store.state.base_url + 'user/phone/code/?code=' + this.submit_form.v_code + '&tel=' + this.submit_form.tel).then((response) => {
-                                if (response.data.code !== 1) {
-                                    this.set_error_msg(response.data.msg)
+                                if (response.code !== 1) {
+                                    this.set_error_msg(response.msg)
                                 } else {
                                     this.step++
                                 }
@@ -199,7 +193,7 @@
             }
         },
         components: {
-            Step, StepItem, XButton, XInput, ButtonTab, ButtonTabItem
+            Step, StepItem, XButton, XInput, ButtonTab, ButtonTabItem,GridItem, Grid,Group
         }
     }
 </script>

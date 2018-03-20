@@ -62,16 +62,17 @@
                 data.append('password', this.game_password)
                 axios.post(this.$store.state.base_url + 'user/login/', data)
                 .then((response) => {
-                        if (response.data.code === 404) {
-                            this.set_error_msg(response.data.msg)
+                        console.log(response)
+                        if (response.code === 404) {
+                            this.set_error_msg(response.msg)
                             return false
                         }
-                        let token = response.data.data.token;
+                        let token = response.data.token;
                         this.setCookie('token', token, 3)
-                        this.$store.state.user.id = response.data.data.id
-                        this.$store.state.user.invite_code = response.data.data.invite_code
-                        this.$store.state.user.tel = response.data.data.tel
-                        this.$store.state.user.nickname = response.data.data.nickname
+                        this.$store.state.user.id = response.data.id
+                        this.$store.state.user.invite_code = response.data.invite_code
+                        this.$store.state.user.tel = response.data.tel
+                        this.$store.state.user.nickname = response.data.nickname
                         this.$router.push({
                             name: 'Home',
                         })

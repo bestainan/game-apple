@@ -69,7 +69,7 @@
 <template>
     <div class="history-box">
         <div>
-            <form-preview :key="item" v-for="item in datas" :header-label="'报名费'" :header-value="'¥'+item.money" :body-items="item.values_list" :footer-buttons="go_info" name="demo"></form-preview>
+            <form-preview  v-for="item in datas" :header-label="'报名费'" :key="item.id" :header-value="'¥'+item.money" :body-items="item.value_list" :footer-buttons="go_info" :name="item.room_id"></form-preview>
         </div>
     </div>
 </template>
@@ -82,19 +82,25 @@
         data() {
             return {
                 list: [],
+                datas:[],
                 go_info: [{
                     style: 'primary',
                     text: '详情',
-                    onButtonClick: (name) => {
-                        console.log(name)
+                    onButtonClick: (room_id) => {
+                        console.log(room_id)
+                        this.$router.push({
+                            name: 'RoomInfo',
+                            params: {room_id: room_id}
+                        })
                     }
                 }]
+
             }
         },
         mounted() {
             this.$store.state.show_menu = true
-            this.axios.get(this.$store.state.base_url + 'game/apply/history//').then((response) => {
-                    this.users = response.data.data
+            this.axios.get(this.$store.state.base_url + 'game/apply/history/').then((response) => {
+                    this.datas = response.data
                 }
             )
         },
