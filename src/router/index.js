@@ -99,5 +99,23 @@ export default new VueRouter({
                 require_login:true,
             },
         },
+        {
+            path: '/winner',
+            name: 'IAmWinner',
+            component: resolve => require(['../components/IAmWinner.vue'], resolve),
+            meta: {
+                title: '消息',
+                require_login:true,
+            },
+        },
+        {
+            path: '/buy/card',
+            name: 'BuyCard',
+            component: resolve => require(['../components/BuyCard.vue'], resolve),
+            meta: {
+                title: '购买激活卡',
+                require_login:true,
+            },
+        },
     ]
 })

@@ -23,9 +23,9 @@
 <template>
     <div class="login-box">
         <!--<grid>-->
-            <!--<grid-item class="logo">-->
-                <!--<img src="../assets/logo.jpeg" style="width: 150px;" alt="">-->
-            <!--</grid-item>-->
+        <!--<grid-item class="logo">-->
+        <!--<img src="../assets/logo.jpeg" style="width: 150px;" alt="">-->
+        <!--</grid-item>-->
         <!--</grid>-->
         <grid>
             <grid-item class="form">
@@ -45,6 +45,7 @@
 <script>
     import {XInput, XButton, Grid, GridItem} from 'vux'
     import axios from 'axios'
+
     export default {
         name: 'login',
         data() {
@@ -53,7 +54,8 @@
                 game_password: '',
             }
         },
-        created: function (event) {},
+        created: function (event) {
+        },
         methods: {
             login() {
                 this.$store.state.show_menu = false
@@ -62,7 +64,7 @@
                 data.append('password', this.game_password)
                 axios.post(this.$store.state.base_url + 'user/login/', data)
                 .then((response) => {
-                        console.log(response)
+                    console.log(response)
                         if (response.code === 404) {
                             this.set_error_msg(response.msg)
                             return false

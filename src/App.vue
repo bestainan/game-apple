@@ -19,7 +19,7 @@
     <div id="app">
         <toast v-model="$store.state.show_error_msg" style="color: white;z-index: 1000;" type="text" :time="1000" is-show-mask :text="$store.state.error_msg" position="default"></toast>
         <div v-show="$store.state.show_menu">
-            <tabbar style="position: fixed">
+            <tabbar style="position: fixed;">
                 <tabbar-item link="/">
                     <span slot="label">首页</span>
                 </tabbar-item>

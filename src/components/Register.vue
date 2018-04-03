@@ -82,7 +82,7 @@
             </grid>
         </div>
         <div class="btn_wrap">
-            <x-button plain type="primary" @click.native="check_phone_code">{{ step == '0' ? '下一步' : '提交'}}</x-button>
+            <x-button plain type="primary" @click.native="check_phone_code">{{ this.step == '0' ? '下一步' : '提交'}}</x-button>
         </div>
     </div>
 </template>
@@ -110,12 +110,14 @@
                     bank_name: '',
                     card_account: '',
                     card_name: '',
-                    invite_code: '',
+                    invite_code: ''
                 }
 
             }
         },
         mounted: function () {
+            console.log(this.$store.state.invite_code);
+            this.submit_form.invite_code = this.$store.state.invite_code
         },
         methods: {
             times() {

@@ -10,6 +10,10 @@ import util from './utils'
 import VueWechatTitle from 'vue-wechat-title';
 import VueAxios from 'vue-axios'
 import axios from 'axios'
+import VueClipboard from 'vue-clipboard2'
+import vueUploadWeb from 'vue-upload-web'
+Vue.use(vueUploadWeb)
+Vue.use(VueClipboard)
 
 const FastClick = require('fastclick');
 FastClick.attach(document.body);
@@ -35,6 +39,11 @@ const getCookie = function (cname) {
     return "";
 };
 router.beforeEach((to, from, next) => {
+    console.log(to.query);
+    if (to.query.room_id) {
+        store.state.room_id = to.query.room_id
+        store.state.invite_code = to.query.invite_code
+    }
     if (to.meta.require_login) {
         let token = getCookie('token');
         if (token.length > 2) {
@@ -45,7 +54,8 @@ router.beforeEach((to, from, next) => {
                         id: data.id,
                         tel: data.tel,
                         nickname: data.nickname,
-                        invite_code: data.invite_code
+                        invite_code: data.invite_code,
+                        card: data.card
                     }
                 }
             );
