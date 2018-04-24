@@ -9,16 +9,20 @@
         cursor: pointer;
         border-radius: 2px;
     }
-    .vux-x-input.weui-cell{
+
+    .vux-x-input.weui-cell {
         height: 30px;
     }
-    .weui-cell__hd label{
+
+    .weui-cell__hd label {
         margin-top: 3px;
     }
-    .weui-cell__bd.weui-cell__primary  input{
+
+    .weui-cell__bd.weui-cell__primary input {
         font-size: 18px;
         vertical-align: middle;
     }
+
     .m-title {
         color: #fff;
         text-align: center;
@@ -99,7 +103,8 @@
     .room-info-box div div.rule div div {
         padding: 0 10px
     }
-    .get-money .weui-label{
+
+    .get-money .weui-label {
         font-size: 18px;
     }
 </style>
@@ -141,7 +146,7 @@
                 <tabbar-item v-if='!data.has_apply' style="border-right: 1px solid #fff;" @click.native="show_apply=true">
                     <span slot="label" style="color: white;font-size: 20px;">报名</span>
                 </tabbar-item>
-                <tabbar-item v-if='!data.has_apply'>
+                <tabbar-item>
                     <span slot="label" v-clipboard:copy="share_url" v-clipboard:success="onCopy" style="color: white;font-size: 20px;">分享</span>
                 </tabbar-item>
                 <tabbar-item v-if='data.has_apply'>
@@ -152,10 +157,9 @@
 
             <popup class="get-money" title='aaa' v-model="show_apply" height="auto" is-transparent>
                 <div style="background-color:#fff;height:210px;">
-                        <!--<radio id="title" title="title" :options="options" v-model="deposit_option"></radio>-->
-                        <x-input style="margin-left: 15px;font-size: 18px;" type="text" label-width="3em" title="昵称" v-model="game_nickname"></x-input>
-                        <x-input style="margin-left: 15px;font-size: 18px;" type="text" label-width="3em" title="时限" placeholder="请输入分钟" v-model="game_nickname"></x-input>
-                        <!--<x-input style="margin-left: 15px;font-size: 18px;" type="text" label-width="3em" title="激活卡" v-model="game_nickname"></x-input>-->
+                    <!--<radio id="title" title="title" :options="options" v-model="deposit_option"></radio>-->
+                    <x-input style="margin-left: 15px;font-size: 18px;" type="text" label-width="3em" title="昵称" v-model="game_nickname"></x-input>
+                    <!--<x-input style="margin-left: 15px;font-size: 18px;" type="text" label-width="3em" title="激活卡" v-model="game_nickname"></x-input>-->
                     <span style="margin-left: 15px;padding-top: 15px;display: inline-block;">激活卡：<span style="color: orangered; font-weight: bold">免费</span></span>
                     <div style="padding:0 15px;">
                         <x-button style="margin-top: 15px;" type="primary" @click.native="apply">支付并报名</x-button>
@@ -168,7 +172,7 @@
 </template>
 
 <script>
-    import {Toast, Tabbar, TabbarItem, Radio, Group, GroupTitle, Popup, XButton, Swiper, SwiperItem, XInput} from 'vux'
+    import {Toast, Tabbar, TabbarItem, Radio, Group, GroupTitle, Popup, XButton, Swiper, SwiperItem, XInput, cookie} from 'vux'
 
     export default {
         name: 'login',
@@ -189,9 +193,9 @@
             }
         },
         mounted() {
-            this.$store.state.show_menu = true
+            this.$store.state.show_menu = false
             this.room_id = this.$route.params.room_id;
-            let token = this.getCookie('token')
+            let token = cookie.get('token')
             this.axios.get(this.$store.state.base_url + 'game/room/?room_id=' + this.room_id + '&token=' + token).then((response) => {
                     this.data = response.data
                 }
@@ -204,8 +208,13 @@
             },
             apply() {
                 let data = new FormData()
+                if (!this.game_nickname) {
+                    this.set_error_msg('昵称不能为空')
+                    return false
+                }
                 data.append('room_id', this.room_id)
                 data.append('user_id', this.$store.state.user.id)
+                data.append('name', this.game_nickname)
                 this.axios.post(this.$store.state.base_url + 'game/room_apply/alipay/', data).then((response) => {
                         let res = response.data;
                         if (res.code !== 1) {

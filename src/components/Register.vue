@@ -88,7 +88,7 @@
 </template>
 
 <script>
-    import {Step, StepItem, XButton, XInput, ButtonTab, ButtonTabItem,GridItem,Grid, Group} from 'vux'
+    import {Step, StepItem, XButton, XInput, ButtonTab, ButtonTabItem,GridItem,Grid, Group,cookie} from 'vux'
 
     export default {
         name: 'register',
@@ -116,8 +116,7 @@
             }
         },
         mounted: function () {
-            console.log(this.$store.state.invite_code);
-            this.submit_form.invite_code = this.$store.state.invite_code
+            this.submit_form.invite_code = this.$route.query.invite_code
         },
         methods: {
             times() {
@@ -145,7 +144,7 @@
                             } else {
                                 console.log(response.data)
                                 let token = response.data.token;
-                                this.setCookie('token', token, 7)
+                                cookie('tztoken', token, 30)
                                 this.$store.state.user.tel = response.data.tel
                                 this.$store.state.user.nickname = response.data.nickname
                                 this.$store.state.user.id = response.data.id

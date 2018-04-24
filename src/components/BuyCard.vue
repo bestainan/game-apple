@@ -64,14 +64,13 @@
             <p class="total">￥{{card_type*20}}元 <span>20/个</span></p>
         </div>
         <div>
-            <tabbar>
-                <tabbar-item @click.native="buy">
+            <tabbar  @click.native="buy">
+                <tabbar-item>
                     <span slot="label">免费购买</span>
                 </tabbar-item>
             </tabbar>
         </div>
         <toast v-model="show_success" type="success" :text="toast_msg"></toast>
-
     </div>
 </template>
 
@@ -91,7 +90,7 @@
             }
         },
         mounted() {
-
+            this.$store.state.show_menu = false
         },
         methods: {
             buy() {
@@ -106,7 +105,6 @@
                 )
             },
             onItemClick(value, disabled) {
-                console.log(value, disabled)
                 if (!this.disabled) {
                     this.showPopup = false
                 }

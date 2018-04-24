@@ -126,7 +126,7 @@
 </template>
 
 <script>
-    import {Cell, CellBox, Group, Badge, Popup, TransferDom, XSwitch, XButton, XInput, Radio} from 'vux'
+    import {Cell, CellBox, Group, Badge, Popup, TransferDom, XSwitch, XButton, XInput, Radio, cookie} from 'vux'
 
     export default {
         name: 'login',
@@ -153,7 +153,7 @@
         methods: {
             logout() {
                 this.$store.state.show_menu = false
-                this.setCookie('token', '', 1);
+                cookie.remove('tztoken');
                 this.$store.state.user.id = '';
                 this.$store.state.user.invite_code = '';
                 this.$store.state.user.tel = '';

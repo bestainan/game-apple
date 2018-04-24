@@ -69,11 +69,15 @@
     .card-padding {
         padding: 0 15px;
     }
+
+    .open-qrcode {
+        padding: 15px;
+    }
 </style>
 <template>
     <div class="invite-box">
         <group title="邀请一位玩家成功报名游戏房间,即可获得3%奖励,<br/> 邀请的玩家再次邀请其他玩家获得1%" label-width="5em"></group>
-        <group :title="'您的邀请码：'+this.$store.state.user.invite_code" label-width="5em"></group>
+        <router-link class="open-qrcode" to="/qrcode">我的邀请二维码</router-link>
         <group label-width="5em">
             <x-table :cell-bordered="false" style="background-color:#fff;">
                 <thead>
@@ -120,7 +124,13 @@
                 }
             )
         },
-        methods: {},
+        methods: {
+            open_qrcode() {
+                this.$router.push({
+                    name: 'login',
+                })
+            }
+        },
         components: {
             Group, XTable, LoadMore
         }

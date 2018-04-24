@@ -1,4 +1,5 @@
 import VueRouter from 'vue-router'
+
 export default new VueRouter({
     mode: 'history',
     routes: [
@@ -8,7 +9,7 @@ export default new VueRouter({
             component: resolve => require(['../components/Home.vue'], resolve),
             meta: {
                 title: '首页',
-                require_login:true,
+                require_login: true,
             },
         },
         {
@@ -17,7 +18,7 @@ export default new VueRouter({
             component: resolve => require(['../components/Rooms.vue'], resolve),
             meta: {
                 title: '游戏信息',
-                require_login:true,
+                require_login: true,
             },
         },
         {
@@ -26,7 +27,7 @@ export default new VueRouter({
             component: resolve => require(['../components/RoomInfo.vue'], resolve),
             meta: {
                 title: '房间信息',
-                require_login:true,
+                require_login: true,
             },
         },
         {
@@ -35,7 +36,7 @@ export default new VueRouter({
             component: resolve => require(['../components/Login.vue'], resolve),
             meta: {
                 title: '登录',
-                require_login:false,
+                require_login: false,
 
             },
         },
@@ -45,7 +46,7 @@ export default new VueRouter({
             component: resolve => require(['../components/Register.vue'], resolve),
             meta: {
                 title: '注册',
-                require_login:false,
+                require_login: false,
 
             },
         },
@@ -55,7 +56,7 @@ export default new VueRouter({
             component: resolve => require(['../components/User.vue'], resolve),
             meta: {
                 title: '个人中心',
-                require_login:true,
+                require_login: true,
 
             },
         },
@@ -65,7 +66,7 @@ export default new VueRouter({
             component: resolve => require(['../components/Mail.vue'], resolve),
             meta: {
                 title: '消息',
-                require_login:true,
+                require_login: true,
 
             },
         },
@@ -75,7 +76,7 @@ export default new VueRouter({
             component: resolve => require(['../components/Rank.vue'], resolve),
             meta: {
                 title: '消息',
-                require_login:true,
+                require_login: true,
 
             },
         },
@@ -85,7 +86,7 @@ export default new VueRouter({
             component: resolve => require(['../components/Invite.vue'], resolve),
             meta: {
                 title: '消息',
-                require_login:true,
+                require_login: true,
 
             },
 
@@ -96,7 +97,7 @@ export default new VueRouter({
             component: resolve => require(['../components/History.vue'], resolve),
             meta: {
                 title: '消息',
-                require_login:true,
+                require_login: true,
             },
         },
         {
@@ -105,7 +106,7 @@ export default new VueRouter({
             component: resolve => require(['../components/IAmWinner.vue'], resolve),
             meta: {
                 title: '消息',
-                require_login:true,
+                require_login: true,
             },
         },
         {
@@ -114,7 +115,16 @@ export default new VueRouter({
             component: resolve => require(['../components/BuyCard.vue'], resolve),
             meta: {
                 title: '购买激活卡',
-                require_login:true,
+                require_login: true,
+            },
+        },
+        {
+            path: '/qrcode',
+            name: 'QrCode',
+            component: resolve => require(['../components/QrCode.vue'], resolve),
+            meta: {
+                title: '我的邀请码',
+                require_login: true,
             },
         },
     ]

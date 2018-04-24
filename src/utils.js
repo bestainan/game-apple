@@ -1,5 +1,5 @@
 import store from './store/index.js'
-
+import {cookie} from 'vux'
 const set_error_msg = function (msg) {
     store.state.error_msg = msg;
     store.state.show_error_msg = true;
@@ -17,24 +17,24 @@ const set_error_msg = function (msg) {
 
 import axios from 'axios'
 
-const setCookie = function (cname, cvalue, exdays) {
-    let d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-};
-//获取cookie
-const getCookie = function (cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1);
-        if (c.indexOf(name) !== -1)
-            return c.substring(name.length, c.length);
-    }
-    return "";
-};
+// const setCookie = function (cname, cvalue, exdays) {
+//     let d = new Date();
+//     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+//     let expires = "expires=" + d.toUTCString();
+//     document.cookie = cname + "=" + cvalue + "; " + expires;
+// };
+// //获取cookie
+// const getCookie = function (cname) {
+//     let name = cname + "=";
+//     let ca = document.cookie.split(';');
+//     for (let i = 0; i < ca.length; i++) {
+//         let c = ca[i];
+//         while (c.charAt(0) === ' ') c = c.substring(1);
+//         if (c.indexOf(name) !== -1)
+//             return c.substring(name.length, c.length);
+//     }
+//     return "";
+// };
 // const getUrlParam = function (name) {
 //     let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 //     let r = window.location.search.substr(1).match(reg);  //匹配目标参数
@@ -56,10 +56,11 @@ const getCookie = function (cname) {
 axios.interceptors.request.use(
     config => {
         if (config.method === 'post' || config.method === 'patch') {
-            config.data.append('token', getCookie('token'))
+            config.data.append('tztoken', cookie.get('tztoken'))
         } else if (config.method === 'get' || config.method === 'delete') {
+            console.log(config.params);
             config.params = {
-                token: getCookie('token'),
+                tztoken: cookie.get('tztoken'),
                 ...config.params
             }
         }
@@ -119,8 +120,8 @@ export default {
     install(Vue, options) {
         Vue.prototype.set_error_msg = set_error_msg;
         // Vue.prototype.convert_code = convert_code;
-        Vue.prototype.setCookie = setCookie;
-        Vue.prototype.getCookie = getCookie;
+        // Vue.prototype.setCookie = setCookie;
+        // Vue.prototype.getCookie = getCookie;
         // Vue.prototype.getUrlParam = getUrlParam;
         // Vue.prototype.$axios = axios;
         // Vue.prototype.change_page = ChangePage;

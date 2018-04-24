@@ -12,6 +12,7 @@ import VueAxios from 'vue-axios'
 import axios from 'axios'
 import VueClipboard from 'vue-clipboard2'
 import vueUploadWeb from 'vue-upload-web'
+
 Vue.use(vueUploadWeb)
 Vue.use(VueClipboard)
 
@@ -21,34 +22,21 @@ FastClick.attach(document.body);
 
 Vue.use(VueAxios, axios);
 Vue.use(VueRouter);
-
+Vue.use(cookie);
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 Vue.use(util);
 Vue.use(VueWechatTitle);
 
-const getCookie = function (cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1);
-        if (c.indexOf(name) !== -1)
-            return c.substring(name.length, c.length);
-    }
-    return "";
-};
+import {cookie} from 'vux'
+
 router.beforeEach((to, from, next) => {
-    console.log(to.query);
-    if (to.query.room_id) {
-        store.state.room_id = to.query.room_id
-        store.state.invite_code = to.query.invite_code
-    }
     if (to.meta.require_login) {
-        let token = getCookie('token');
-        if (token.length > 2) {
-            axios.get(store.state.base_url + 'user/token/?token=' + token)
+        let token = cookie.get('tztoken');
+        if (token) {
+            axios.get(store.state.base_url + 'user/token/?tztoken=' + token)
             .then((response) => {
+                console.log(response)
                     let data = response.data;
                     store.state.user = {
                         id: data.id,
@@ -61,6 +49,7 @@ router.beforeEach((to, from, next) => {
             );
             next();
         } else {
+            console.log(token)
             next({
                 path: '/login',
                 // query: {redirect: to.fullPath}

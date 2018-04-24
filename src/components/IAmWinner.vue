@@ -4,34 +4,40 @@
         color: #797979;
         font-size: 22px;
     }
+
     .room-info-box .weui-tabbar:before {
         border-top: 0;
     }
-    .weui-grids:before,.weui-grids:after,.weui-grid:before,.weui-grid:after{
+
+    .weui-grids:before, .weui-grids:after, .weui-grid:before, .weui-grid:after {
         border: none;
     }
-    .weui-grid:active{
+
+    .weui-grid:active {
         background: #fcf9fe;
     }
-    .progressContainer{
+
+    .progressContainer {
         height: 20px;
         width: 96%;
         border-radius: 10px;
         background-color: #ddd;
         margin-left: 2%;
     }
-    .progress{
+
+    .progress {
         background-color: #1C8DE0;
         border-radius: 10px;
-        height:20px;
+        height: 20px;
         line-height: 20px;
     }
-    b{
-        color:#fff;
+
+    b {
+        color: #fff;
         font-weight: 100;
         font-size: 12px;
-        position:absolute;
-        left:40%;
+        position: absolute;
+        left: 40%;
     }
 
     .btns {
@@ -73,10 +79,10 @@
             </grid-item>
         </grid>
 
-        <ul v-for="item in imgList" class="ul-class">
+        <ul v-for="item in imgList" class="ul-class" style="text-align: center;padding-left: 0;">
             <i class="iconfont icon-wenjian wenjian"></i>
             <span v-text="item.name" @click=nameClick(item.file)></span>
-            <span  v-on:mouseenter="mouseenter($event)" v-on:mouseleave="mouseleave($event)">
+            <span v-on:mouseenter="mouseenter($event)" v-on:mouseleave="mouseleave($event)">
             <i class="iconfont icon-gouxuan gouxuan" style="display: inline-block;"></i>
             <i class="iconfont icon-chahao chahao" :img-url="item.imageUrl" style="display: none;" @click="deleteImg($event)"></i>
           </span>
@@ -86,16 +92,20 @@
                 <b>{{progress}}%</b>
             </div>
         </div>
+        <div style="text-align: center">
+            <img :src="submit_form.img" alt="" style="width: 30%;">
+        </div>
         <div class="btns" style="text-align: center;">
             <div id="picker" style="width: 200px">选择文件</div>
         </div>
+
         <vue-upload-web :url="cdnUrl" :form-data="cdnParams" :accept="accept" :key-generator="keyGenerator"
                         @progress="uploadProgress" @success="handleSuccess" @before="beforeUpload"
                         @error="error" @complete="handleComplete" upload-button=".btns" :multiple=true>
         </vue-upload-web>
         <tabbar style="position: fixed;">
-            <tabbar-item style="border-right: 1px solid #fff;" >
-                <span slot="label" style="color: white;font-size: 20px;">提交审核</span>
+            <tabbar-item style="border-right: 1px solid #fff;">
+                <span slot="label" style="font-size: 20px;">提交审核</span>
             </tabbar-item>
         </tabbar>
     </div>
@@ -103,43 +113,50 @@
 
 
 <script>
-    import {XButton, XInput, ButtonTab, ButtonTabItem,GridItem,Grid, Group,Tabbar, TabbarItem} from 'vux'
+    import {XButton, XInput, ButtonTab, ButtonTabItem, GridItem, Grid, Group, Tabbar, TabbarItem} from 'vux'
 
 
     export default {
         name: 'app',
         components: {
-            XButton, XInput, ButtonTab, ButtonTabItem,GridItem,Grid, Group,Tabbar, TabbarItem
+            XButton, XInput, ButtonTab, ButtonTabItem, GridItem, Grid, Group, Tabbar, TabbarItem
         },
         data() {
             return {
-                submit_form:{
-                    room_id:0,
-                    name:''
+                submit_form: {
+                    room_id: 0,
+                    name: '',
+                    img: '',
+
                 },
                 display: "none",
                 progress: 0,
-                imgList:[],
+                imgList: [],
                 // 只允许选择图片文件。
                 accept: {
                     title: 'Images',
                     extensions: 'jpg,jpeg,png',
                     mimeTypes: 'image/jpg,image/jpeg,image/png'
                 },
-                cdnUrl: '需要你自己的上传地址',
-                host: '查看上传文件地址',
+                cdnUrl: this.$store.state.base_url + 'game/upload_img/',
                 cdnParams: {
                     token: '上传如果需要的token认证',
                     key: '',
                     name: '',
                     chunk: 0,
                     chunks: 1
-                }
+                },
+
             };
+        },
+        mounted() {
+            // this.$store.state.show_menu = true
         },
         methods: {
             handleSuccess(file, res) {
-                const imageUrl = this.host.concat(res.key);
+                this.submit_form.img = res.url
+                const imageUrl = res.url
+                // const imageUrl = this.host.concat(res.key);
                 this.imgList.push({
                     imageUrl: imageUrl,
                     name: file.name,
@@ -156,7 +173,8 @@
             error(message) {
                 this.$message.error(message);
             },
-            handleComplete() {
+            handleComplete(res) {
+                console.log(res)
                 this.display = "none";
             },
             keyGenerator(file) {
