@@ -82,7 +82,8 @@
         </group>
         <group>
             <cell is-link @click.native="go_path('Mail')">
-                <span slot="title"><span style="vertical-align:middle;">消息</span> <badge text="1"></badge></span>
+               <span slot="title"><span style="vertical-align:middle;">消息</span></span>
+                <!--<badge text="1"></badge>-->
             </cell>
             <cell is-link @click.native="go_path('History')">
                 <span slot="title"><span>历史参与</span></span>

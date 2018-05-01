@@ -61,7 +61,8 @@
             <checker-item :key="5" :value=5>激活卡 × 5</checker-item>
         </checker>
         <div>
-            <p class="total">￥{{card_type*20}}元 <span>20/个</span></p>
+            <!--<p class="total">￥{{card_type*20}}元 <span>20/个</span></p>-->
+            <p class="total">活动期间免费</p>
         </div>
         <div>
             <tabbar  @click.native="buy">

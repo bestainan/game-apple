@@ -103,9 +103,9 @@
                         @progress="uploadProgress" @success="handleSuccess" @before="beforeUpload"
                         @error="error" @complete="handleComplete" upload-button=".btns" :multiple=true>
         </vue-upload-web>
-        <tabbar style="position: fixed;">
+        <tabbar style="position: fixed;" @click.native="submit">
             <tabbar-item style="border-right: 1px solid #fff;">
-                <span slot="label" style="font-size: 20px;">提交审核</span>
+                <span slot="label" style="font-size: 20px;" >提交审核</span>
             </tabbar-item>
         </tabbar>
     </div>
@@ -153,10 +153,36 @@
             // this.$store.state.show_menu = true
         },
         methods: {
+            submit() {
+                if(!this.submit_form.room_id){
+                    this.set_error_msg('房间号不能为空')
+                    return false
+                }
+                if(!this.submit_form.name){
+                    this.set_error_msg('游戏昵称不能为空')
+                    return false
+                }
+                if(!this.submit_form.img){
+                    this.set_error_msg('请上传获胜截图')
+                    return false
+                }
+                this.$store.state.show_menu = false
+                let data = new FormData()
+                data.append('room_id', this.submit_form.room_id)
+                data.append('name', this.submit_form.name)
+                data.append('img', this.submit_form.img)
+                console.log(this.submit_form)
+                this.axios.post(this.$store.state.base_url + 'game/winner/', data)
+                .then((response) => {
+                        this.set_error_msg('已提交等待审核')
+                    }
+                ).catch(function (error) {
+                    console.log(error);
+                })
+            },
             handleSuccess(file, res) {
                 this.submit_form.img = res.url
                 const imageUrl = res.url
-                // const imageUrl = this.host.concat(res.key);
                 this.imgList.push({
                     imageUrl: imageUrl,
                     name: file.name,
@@ -174,7 +200,6 @@
                 this.$message.error(message);
             },
             handleComplete(res) {
-                console.log(res)
                 this.display = "none";
             },
             keyGenerator(file) {

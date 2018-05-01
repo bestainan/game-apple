@@ -182,7 +182,7 @@
                 data.append('tel', this.submit_form.tel);
                 let that = this;
                 this.axios.post(this.$store.state.base_url + 'user/phone/code/', data).then((response) => {
-                        let data = response.data;
+                    let data = response;
                         if (data.code !== 1) {
                             that.set_error_msg(data.msg);
                             return false
