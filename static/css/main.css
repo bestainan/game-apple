@@ -3,11 +3,12 @@ html {
     padding: 0;
     width: 100%;
     font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif, "SimSun";
-    background: rgb(247, 247, 247);
+    background: #fff;
 }
 
 body {
     margin: 0;
+    background-color: #fff;
 }
 
 h3 {

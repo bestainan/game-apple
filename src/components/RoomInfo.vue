@@ -73,7 +73,9 @@
     .weui-cell__bd p {
         margin: 0;
     }
-
+    .vux-header{
+        display: block !important;
+    }
     #title .weui-cell {
         height: 30px;
     }
@@ -83,7 +85,7 @@
     }
 
     .room-info-box .weui-tabbar__label {
-        background: gold;
+        background: #fec142;
         color: #797979;
         font-size: 22px;
     }
@@ -107,6 +109,38 @@
     .get-money .weui-label {
         font-size: 18px;
     }
+
+    #app .vux-header {
+        background-color: #fec142 !important;
+    }
+
+    .weui-grid:after {
+        border: none !important;
+    }
+    .room-info{
+        border-top: 10px solid #ececec;
+    }
+    .weui-grid{
+        text-align: center;
+        padding: 15px;
+        font-size: 18px;
+        color: #999999;
+    }
+    .rule{
+        border-top: 10px solid #ececec;
+    }
+    .weui-cells.vux-no-group-title{
+        margin-top: 0;
+        padding: 0 15px;
+    }
+    .weui-cells:after{
+        border-bottom: 0 !important;
+    }
+    .weui-cells__title{
+        font-size: 20px !important;
+        color: #333 !important;
+    }
+
 </style>
 <template>
     <div class="room-info-box">
@@ -114,40 +148,45 @@
             <div>
                 <swiper :list="[{url: '',img: data.pic,title: data.name}]" :auto="true" :loop="true"></swiper>
             </div>
-            <group class="info">
-                <group-title>报名详情</group-title>
-                <div>
-                    <p>
-                        <span>状态：{{data.status}}</span>
-                        <span>报名费：{{data.apply_money}}</span>
-                    </p>
-                    <p>
-                        <span>人数：{{data.current_count}}/{{data.max_count}}</span>
-                        <span>房间号：{{data.id}}</span>
-                    </p>
-                </div>
-            </group>
+            <div class="room-info">
+                <grid>
+                    <grid-item key="1">
+                        状态:<br>{{data.status}}
+                    </grid-item>
+                    <grid-item key="2">
+                        报名费:<br>{{data.apply_money}}
+                    </grid-item>
+                </grid>
+            </div>
+            <grid>
+                <grid-item key="1">
+                    人数：<br>{{data.current_count}}/{{data.max_count}}
+                </grid-item>
+                <grid-item key="2">
+                    房间号：<br>{{data.id}}
+                </grid-item>
+            </grid>
             <group class="rule">
-                <group-title>规则</group-title>
+                <group-title>游戏规则</group-title>
                 <div>
-                    <p>{{data.des}}</p>
+                    <p style="color: #999999">{{data.des}}</p>
                 </div>
             </group>
-            <group class="rank">
-                <group-title>排行</group-title>
-                <div>
-                    <p v-for="item in data.rank">
-                        <span>{{item.name}}</span>
-                        <span>第{{item.index}}名</span>
-                    </p>
-                </div>
-            </group>
+            <!--<group class="rank">-->
+                <!--<group-title>排行</group-title>-->
+                <!--<div>-->
+                    <!--<p v-for="item in data.rank">-->
+                        <!--<span>{{item.name}}</span>-->
+                        <!--<span>第{{item.index}}名</span>-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</group>-->
             <tabbar style="position: fixed;">
                 <tabbar-item v-if='!data.has_apply' style="border-right: 1px solid #fff;" @click.native="show_apply=true">
-                    <span slot="label" style="color: white;font-size: 20px;">报名</span>
+                    <span slot="label" style="color: white;font-size: 20px;">立即报名</span>
                 </tabbar-item>
                 <tabbar-item>
-                    <span slot="label" v-clipboard:copy="share_url" v-clipboard:success="onCopy" style="color: white;font-size: 20px;">分享</span>
+                    <span slot="label" v-clipboard:copy="share_url" v-clipboard:success="onCopy" style="color: white;font-size: 20px;">立即分享</span>
                 </tabbar-item>
                 <tabbar-item v-if='data.has_apply'>
                     <span slot="label" style="color: white;font-size: 20px;">已报名</span>
@@ -172,7 +211,7 @@
 </template>
 
 <script>
-    import {Toast, Tabbar, TabbarItem, Radio, Group, GroupTitle, Popup, XButton, Swiper, SwiperItem, XInput, cookie} from 'vux'
+    import {Grid, GridItem, Toast, Tabbar, TabbarItem, Radio, Group, GroupTitle, Popup, XButton, Swiper, SwiperItem, XInput, cookie} from 'vux'
 
     export default {
         name: 'login',
@@ -243,7 +282,7 @@
             }
         },
         components: {
-            Tabbar, TabbarItem, Radio, Group, Popup, XButton, Swiper, SwiperItem, GroupTitle, Toast, XInput
+            Grid, GridItem, Tabbar, TabbarItem, Radio, Group, Popup, XButton, Swiper, SwiperItem, GroupTitle, Toast, XInput
         }
 
     }

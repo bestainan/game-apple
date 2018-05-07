@@ -1,49 +1,56 @@
 <style scoped="">
-    .weui-grid.logo {
-        text-align: center;
-    }
-
     .login-box {
-        margin-top: 25%;
+        padding: 10%;
+        text-align: center;
+        margin-top: 15%;
     }
 
-    .weui-grids:before {
-        border-top: none;
+    .login-box .tz-input {
+        border: 1px solid #abb4c3;
+        margin-bottom: 20px;
+        color: #333;
     }
 
-    .weui-grid:after {
-        border-bottom: none
+    .login-box .tz-input img {
+        padding-right: 10px;
+        display: block;
+        width: 20px;
     }
 
-    .custom-primary-red {
-        border-color: #CE3C39 !important;
-        color: #CE3C39 !important;
+    .login-box .login-button {
+        background-color: #ffc107;
+        margin-top: 20px;
     }
+
+    .login-box .register-button {
+        background-color: #10aeff;
+    }
+
+    .login-box .logo {
+        width: 50%;
+        border-radius: 50%;
+        margin-bottom: 40px;
+    }
+
 </style>
 <template>
     <div class="login-box">
-        <!--<grid>-->
-        <!--<grid-item class="logo">-->
-        <!--<img src="../assets/logo.jpeg" style="width: 150px;" alt="">-->
-        <!--</grid-item>-->
-        <!--</grid>-->
-        <grid>
-            <grid-item class="form">
-                <x-input type="tel" title="手机" v-model="game_tel"></x-input>
-                <x-input type="password" title="密码" v-model="game_password"></x-input>
-            </grid-item>
-        </grid>
-        <grid>
-            <grid-item class="form">
-                <x-button plain type="primary" @click.native="login">登录</x-button>
-                <x-button plain class="custom-primary-red" @click.native="go_register">注册</x-button>
-            </grid-item>
-        </grid>
+        <img class="logo" src="../../src/assets/logo.png" alt="">
+        <x-input class="tz-input" type="tel" placeholder="请输入手机号">
+            <img slot="label" src="../../src/assets/account.png" width="24" height="24">
+        </x-input>
+
+        <x-input class="tz-input" type="password" placeholder="请输入密码">
+            <img slot="label" src="../../src/assets/password.png" width="24" height="24">
+        </x-input>
+        <p style="text-align: right"><u style="color: red;">忘记密码</u></p>
+        <x-button class="login-button" type="primary">登录</x-button>
+        <x-button class="register-button" type="primary">立即注册</x-button>
     </div>
 </template>
 
 <script>
-    import {XInput, XButton, Grid, GridItem, cookie} from 'vux'
+    import {XInput, XButton} from 'vux'
 
     export default {
         name: 'login',
@@ -95,9 +102,7 @@
         },
         components: {
             XInput,
-            XButton,
-            Grid,
-            GridItem
+            XButton
         }
     }
 </script>

@@ -71,7 +71,7 @@
         <group>
             <x-switch title="<p style='width: 240px;font-size: 15px;text-align: left'>我已阅读并接受《用户注册协议》</p>" v-model="is_read"></x-switch>
         </group>
-        <x-button class="login-button" type="primary">注册</x-button>
+        <x-button class="login-button" type="primary">确认修改</x-button>
     </div>
 </template>
 

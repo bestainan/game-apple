@@ -1,5 +1,4 @@
 <style>
-
     .m-img {
         padding-bottom: 33%;
         display: block;
@@ -27,20 +26,19 @@
     }
 
     .m-time {
-        font-size: 12px;
-        padding-top: 4px;
-        border-top: 1px solid #f0f0f0;
-        display: inline-block;
-        margin-top: 5px;
+        font-size: 16px ;
+        color: white !important;
     }
 
+
     .m-title h3 {
-        font-size: 20px;
+        font-size: 28px;
+        color: white;
     }
 
     .m-title span {
         color: #333;
-        font-size: 14px;
+        font-size: 18px;
     }
 
     .weui-label {
@@ -58,6 +56,10 @@
 
     }
 
+    .game-box {
+
+    }
+
     .weui-cell__bd p {
         margin: 0;
     }
@@ -69,10 +71,6 @@
     .weui-grid {
         padding: 0 !important;
 
-    }
-
-    .weui-grids {
-        padding-top: 15px;
     }
 
     .weui-grids:before, .weui-cells:before, .weui-cells:after, .weui-grids:after {
@@ -87,8 +85,27 @@
         border-bottom: none !important;
     }
 
-    .hot {
-        margin-top: -30px;
+
+    .weui-cells__title {
+        font-size: 20px !important;
+        color: #666 !important;
+    }
+
+    .weui-grid__label {
+        color: #999 !important;
+    }
+
+    .weui-grid__icon {
+        width: 60px !important;
+        height: 100% !important;
+        margin: 0 auto;
+    }
+
+    .weui-cells, .weui-cells, .vux-no-group-title {
+        margin-top: 0 !important;
+    }
+    .vux-header{
+        display: none !important;
     }
 </style>
 <template>
@@ -96,26 +113,44 @@
         <div>
             <swiper :list="banner_list" :auto="true" :loop="true"></swiper>
         </div>
-        <group>
+        <group style="border-top: 10px solid #ececec;background: #d9dfe224">
             <group-title color="#333">游戏分类</group-title>
-            <grid :cols="4">
-                <grid-item :label="item.name" @click.native="go_rooms(item.id)" v-for="item in game_list" :key="item.id">
-                    <img slot="icon" src="/static/img/wangzherongyao.jpg">
+            <grid class="game-box" :cols="4" style="padding: 15px;">
+                <!--<grid-item :label="item.name" @click.native="go_rooms(item.id)" v-for="item in game_list" :key="item.id">-->
+                <!--<img slot="icon" src="/static/img/wangzherongyao.jpg">-->
+                <!--</grid-item>-->
+                <grid-item label="王者荣耀" :key="1">
+                    <img slot="icon" src="/static/img/wangzherongyao.png">
                 </grid-item>
+                <grid-item label="王者荣耀" :key="1">
+                    <img slot="icon" src="/static/img/wangzherongyao.png">
+                </grid-item>
+                <grid-item label="王者荣耀" :key="1">
+                    <img slot="icon" src="/static/img/wangzherongyao.png">
+                </grid-item>
+                <grid-item label="王者荣耀" :key="1">
+                    <img slot="icon" src="/static/img/wangzherongyao.png">
+                </grid-item>
+                <grid-item label="王者荣耀" :key="1">
+                    <img slot="icon" src="/static/img/wangzherongyao.png">
+                </grid-item>
+                <grid-item label="更多" :key="1">
+                    <img slot="icon" src="/static/img/wangzherongyao.png">
+                </grid-item>
+
             </grid>
         </group>
-        <group class="hot">
+        <group class="hot" style="border-top: 10px solid #ececec;background: #d9dfe224">
             <group-title color="#333">热门房间</group-title>
             <div style="margin: 10px;overflow: hidden;" @click="go_room(room.id)" v-for="room in rooms">
-                <masker style="border-radius: 2px;" color="F9C90C" :opacity="0.8">
+                <masker style="border-radius: 2px;" color="#000" :opacity="0.3">
                     <div class="m-img" :style="'background-image:url('+ room.pic +')'"></div>
                     <div slot="content" class="m-title">
                         <h3>{{room.name}}</h3>
                         <br/>
                         <span class="m-time">房间号：{{room.id}} </span>
                         <span class="m-time">人数：{{room.current_count}}/{{room.max_count}} </span>
-                        <span class="m-time">报名费：{{room.apply_money}} </span>
-                        <span class="m-time">状态：进行中 </span>
+                        <span class="m-time">报名卡：{{room.apply_money}}张</span>
                     </div>
                 </masker>
             </div>
@@ -151,13 +186,13 @@
             )
         },
         methods: {
-            go_rooms(game_id){
+            go_rooms(game_id) {
                 this.$router.push({
                     name: 'Rooms',
                     params: {game_id: game_id}
                 })
             },
-            go_room(room_id){
+            go_room(room_id) {
                 this.$router.push({
                     name: 'RoomInfo',
                     params: {room_id: room_id}
