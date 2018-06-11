@@ -53,13 +53,11 @@
         padding-left: 0;
     }
 
-    .weui-btn + .weui-btn {
-        margin-top: 0 !important;
-    }
 
 </style>
 <template>
     <div class="register-box">
+        <!--<img src="/static/img/zhucetu.png" alt="">-->
         <x-input class="tz-input" type="tel" v-model="submit_form.tel" placeholder="请输入手机号">
             <img slot="label" src="../../src/assets/account.png" width="24" height="24">
         </x-input>
@@ -69,16 +67,12 @@
         <x-input class="tz-input" type="password" v-model="submit_form.password2" placeholder="输入确认密码">
             <img slot="label" src="../../src/assets/account.png" width="24" height="24">
         </x-input>
-        <x-input class="tz-input code-input" v-model="submit_form.captcha" type="text" placeholder="验证码">
+        <x-input class="tz-input code-input" type="text" v-model="submit_form.captcha" placeholder="验证码">
             <img slot="label" src="../../src/assets/yanzhengma.png" height="24">
         </x-input>
-        <x-button v-show="count<60" class="code-button" type="primary">{{count}}s</x-button>
-        <x-button v-show="count>=60" class="code-button" @click.native="get_captcha" type="primary">发送验证码</x-button>
+        <x-button class="code-button" type="primary"  @click.native="get_captcha">获取验证码</x-button>
         <div class="clear"></div>
-        <group>
-            <x-switch title="<p style='width: 240px;font-size: 15px;text-align: left'>我已阅读并接受《用户注册协议》</p>" v-model="is_read"></x-switch>
-        </group>
-        <x-button class="login-button" type="primary" @click.native="submit">注册</x-button>
+        <x-button class="login-button" @click.native="submit" type="primary">确认修改</x-button>
     </div>
 </template>
 
@@ -89,9 +83,7 @@
         name: 'register',
         data() {
             return {
-//              归零
-                step: 1,
-                captcha_text: '发送验证码',
+                v_code_text: '发送验证码',
                 count: 60,
                 is_read: false,
                 submit_form: {
@@ -104,8 +96,28 @@
             }
         },
         mounted: function () {
+            this.submit_form.invite_code = this.$route.query.invite_code
         },
         methods: {
+            get_captcha() {
+                if (!this.submit_form.tel) {
+                    this.set_error_msg('手机号不能为空');
+                    return false
+                }
+                this.count--;
+                this.times();
+                let data = new FormData();
+                data.append('tel', this.submit_form.tel);
+                this.axios.post(this.$store.state.base_url + 'user/phone/code/', data).then((response) => {
+                        let data = response;
+                        if (data.code !== 1) {
+                            this.set_error_msg(data.msg);
+                            return false
+                        } else {
+                        }
+                    }
+                );
+            },
             times() {
                 if (!this.timer) {
                     this.timer = setInterval(() => {
@@ -119,10 +131,6 @@
                 }
             },
             submit() {
-                if (!this.is_read){
-                    this.set_error_msg('还没同意注册协议')
-                    return false
-                }
                 let data = new FormData()
                 for (let key in this.submit_form) {
                     data.append(key, this.submit_form[key]);
@@ -143,26 +151,6 @@
                     }
                 )
             },
-            get_captcha() {
-                if (!this.submit_form.tel) {
-                    this.set_error_msg('手机号不能为空');
-                    return false
-                }
-                this.count--;
-                this.times();
-                let data = new FormData();
-                data.append('tel', this.submit_form.tel);
-                this.axios.post(this.$store.state.base_url + 'user/phone/code/', data).then((response) => {
-                        let data = response;
-
-                        if (data.code !== 1) {
-                            this.set_error_msg(data.msg);
-                            return false
-                        } else {
-                        }
-                    }
-                );
-            }
         },
         components: {
             XButton, XInput, XSwitch, Group

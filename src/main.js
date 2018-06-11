@@ -29,36 +29,38 @@ Vue.use(util);
 Vue.use(VueWechatTitle);
 
 import {cookie} from 'vux'
+axios.defaults.withCredentials = true;
 
-router.beforeEach((to, from, next) => {
-    if (to.meta.require_login) {
-        let token = cookie.get('tztoken');
-        if (token) {
-            axios.get(store.state.base_url + 'user/token/?tztoken=' + token)
-            .then((response) => {
-                console.log(response)
-                    let data = response.data;
-                    store.state.user = {
-                        id: data.id,
-                        tel: data.tel,
-                        nickname: data.nickname,
-                        invite_code: data.invite_code,
-                        card: data.card
-                    }
-                }
-            );
-            next();
-        } else {
-            console.log(token)
-            next({
-                path: '/login',
-                // query: {redirect: to.fullPath}
-            })
-        }
-    } else {
-        next()
-    }
-});
+// router.beforeEach((to, from, next) => {
+//     if (to.meta.require_login) {
+//         let token = cookie.get('tztoken');
+//         if (token) {
+//             axios.get(store.state.base_url + 'user/token/?tztoken=' + token)
+//             .then((response) => {
+//                 console.log(response)
+//                     let data = response.data;
+//                     store.state.user = {
+//                         id: data.id,
+//                         tel: data.tel,
+//                         nickname: data.nickname,
+//                         invite_code: data.invite_code,
+//                         card: data.card
+//                     }
+//                 }
+//             );
+//             next();
+//         } else {
+//             console.log(token)
+//             next({
+//                 path: '/login',
+//                 // query: {redirect: to.fullPath}
+//             })
+//         }
+//     } else {
+//         next()
+//     }
+// });
+
 new Vue({
     el: '#app',
     router,

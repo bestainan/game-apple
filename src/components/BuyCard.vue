@@ -1,4 +1,8 @@
-<style scoped>
+<style>
+    #app .vux-header {
+        background-color: #fec142 !important;
+    }
+
     .BuyCard-box {
         padding: 15px;
     }
@@ -25,6 +29,7 @@
 
     .weui-tabbar {
         background: #ffc107;
+        margin-left: -15px;
     }
 
     #app > div.BuyCard-box > div:nth-child(4) > div > a > p > span {
@@ -49,7 +54,7 @@
 </style>
 <template>
     <div class="BuyCard-box">
-        <p>当前激活卡数量：{{$store.state.user.card}} 张</p>
+        <p>当前激活卡数量：{{user.card}} 张</p>
         <divider>请选择个数</divider>
         <checker
             v-model="card_type"
@@ -65,9 +70,9 @@
             <p class="total">活动期间免费</p>
         </div>
         <div>
-            <tabbar  @click.native="buy">
+            <tabbar @click.native="buy">
                 <tabbar-item>
-                    <span slot="label">免费购买</span>
+                    <span slot="label" style="color: #fff;">免费购买</span>
                 </tabbar-item>
             </tabbar>
         </div>
@@ -86,21 +91,31 @@
         data() {
             return {
                 card_type: 1,
+                user: {},
                 toast_msg: '购买成功',
                 show_success: false
             }
         },
         mounted() {
             this.$store.state.show_menu = false
+            this.axios.get(this.$store.state.base_url + 'user/info/').then((response) => {
+                    let res = response
+                    if (res.code === 1) {
+                        this.user = res.data
+                    }
+                }
+            )
         },
         methods: {
             buy() {
                 let data = new FormData()
                 data.append('card_type', this.card_type)
                 this.axios.post(this.$store.state.base_url + 'user/card/', data).then((response) => {
-                    if (response.data.code === 1) {
+                        if (response.code === 1) {
                             this.show_success = true
-                            this.$store.state.user.card += this.card_type
+                            this.user.card += response.data.count
+                        }else{
+                            this.set_error_msg(response)
                         }
                     }
                 )
@@ -112,7 +127,7 @@
             }
         },
         components: {
-            Checker, CheckerItem, Divider, Group, Cell, Popup, TransferDom, Tabbar, TabbarItem,Toast
+            Checker, CheckerItem, Divider, Group, Cell, Popup, TransferDom, Tabbar, TabbarItem, Toast
         }
     }
 </script>

@@ -1,164 +1,138 @@
 <style>
-    html {
-        background-color: #fcf9fe;
+
+    .user-box {
+        position: fixed;
+        top: 0;
+        width: 100%;
     }
 
-    .weui-cell {
-        height: 30px;
-    }
-
-    .weui-label {
-        font-size: 30px;
-    }
-
-    .weui-cell__primary {
-        font-size: 34px;
-        font-weight: bold;
-    }
-
-    .vux-x-input.weui-cell {
-        padding-left: 0;
-        padding-right: 0;
-
-    }
-
-    .progressContainer {
-        height: 20px;
-        width: 96%;
-        border-radius: 10px;
-        background-color: #ddd;
-        margin-left: 2%;
-    }
-
-    .progress {
-        background-color: #1C8DE0;
-        border-radius: 10px;
-        height: 20px;
-        line-height: 20px;
-    }
-
-    b {
+    .top p {
+        font-size: 20px;
         color: #fff;
-        font-weight: 100;
-        font-size: 12px;
-        position: absolute;
-        left: 40%;
     }
 
-    .btns {
-        margin-top: 20px;
+    .vux-header {
+        z-index: 100;
     }
 
-    .wenjian {
+    .avatar {
+        border: 1px solid;
+        width: 100px;
+        height: 100px;
+        margin-top: 80px;
+        border-radius: 50%;
+    }
+
+    .money {
+        padding: 20px;
+        padding-top: 0;
+    }
+
+    .money p {
+        border-bottom: 1px solid #cccccc;
+        line-height: 3;
+        margin: 0;
+    }
+
+    .buttons {
+        padding: 20px;
+        padding-top: 0;
+        margin-bottom: 30px;
+    }
+
+    .weui-grid {
+        padding: 0 !important;
+
+    }
+
+    .weui-grid__icon {
+        width: 70px !important;
+        height: 70px !important;
+        padding-top: 20px !important;
+    }
+
+    .weui-grid__label span {
         font-size: 18px;
-        color: #bfbfbf;
+        font-weight: 100;
     }
 
-    .gouxuan {
-        font-size: 15px;
-        color: #70C34C;
-        float: right;
-        margin-top: 6px;
+    .weui-grid:before {
+        border-right: none !important;
     }
 
-    .chahao {
-        font-size: 16px;
-        color: #bfbfbf;
-        float: right;
-        margin-top: 6px;
+    .weui-grid:after {
+        border-bottom: none !important;
     }
 
-    .ul-class {
-        width: 400px;
-        margin-top: 10px;
+    .weui-grids:before {
+        border-top: none !important;
+    }
+
+    .weui-grids:after {
+        border-left: none !important;
+    }
+    .vux-header{
+        display: none !important;
     }
 </style>
 <template>
     <div class="user-box">
-
-        <group>
-            <cell title="昵称" value="robot"></cell>
-            <cell is-link @click.native="go_path('BuyCard')" title="购买激活卡"></cell>
-        </group>
-        <group>
-            <cell is-link @click.native="go_path('Mail')">
-               <span slot="title"><span style="vertical-align:middle;">消息</span></span>
-                <!--<badge text="1"></badge>-->
-            </cell>
-            <cell is-link @click.native="go_path('History')">
-                <span slot="title"><span>历史参与</span></span>
-            </cell>
-            <cell is-link @click.native="go_path('IAmWinner')">
-                <span slot="title"><span>我是获胜者</span></span>
-            </cell>
-
-
-        </group>
-        <group>
-            <cell is-link @click.native="go_path('Invite')">
-                <span slot="title" style="color:red;"><span>邀请赚钱</span></span>
-            </cell>
-            <cell is-link @click.native="logout">
-                <span slot="title" style="color:red;"><span>退出当前账号</span></span>
-            </cell>
-        </group>
-        <div v-transfer-dom>
-            <popup v-model="show_money_type" height="140px" is-transparent>
-                <div style="background-color:#fff;height:250px;">
-                    <div style="padding:20px 15px;">
-                        <x-button type="primary" @click.native="deposit=true">充值</x-button>
-                        <x-button @click.native="get_money=true">提现</x-button>
-                    </div>
-                </div>
-            </popup>
-            <!--<popup class="get-money" v-model="get_money" height="210px" is-transparent>-->
-            <!--<div style="background-color:#fff;height:250px;">-->
-            <!--<span style="margin-left: 15px;padding-top: 15px;display: inline-block;">提现金额</span>-->
-            <!--<div style="padding:0 15px;">-->
-            <!--<x-input style="border-bottom: 1px solid #ececec;" type="number" title="￥" v-model=""></x-input>-->
-            <!--<span style="color: crimson;line-height: 4;">输入金额超过余额</span>-->
-            <!--<x-button type="primary" @click.native>确认</x-button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</popup>-->
-
+        <p style="padding-left: 20px;">{{user.nickname || '九星金服'}}</p>
+        <div class="money">
+            <p>已赚取奖励：1211</p>
+            <p>
+                <span>可提现金额：{{user.money}}</span>
+                <x-button mini type="warn" style="float: right;margin-top: 10px;">提现</x-button>
+            </p>
+        </div>
+        <div class="buttons">
+            <grid>
+                <grid-item label="点卡充值" @click.native="go_path('BuyCard')">
+                    <img slot="icon" src="/static/img/chongzhi.png">
+                </grid-item>
+                <grid-item label="消息通知" @click.native="go_path('Mail')">
+                    <img slot="icon" src="/static/img/xiaoxi.png">
+                </grid-item>
+                <grid-item label="历史参与" @click.native="go_path('History')">
+                    <img slot="icon" src="/static/img/lishi.png">
+                </grid-item>
+            </grid>
+            <grid>
+                <grid-item label="我的分享" @click.native="go_path('Invite')">
+                    <img slot="icon" src="/static/img/fenxiang.png">
+                </grid-item>
+                <grid-item label="修改密码" @click.native="go_path('ForgetPassword')">
+                    <img slot="icon" src="/static/img/xiugaimima.png">
+                </grid-item>
+                <grid-item label="退出登录" @click.native="logout()">
+                    <img slot="icon" src="/static/img/tuichu.png">
+                </grid-item>
+            </grid>
         </div>
     </div>
 </template>
 
 <script>
-    import {Cell, CellBox, Group, Badge, Popup, TransferDom, XSwitch, XButton, XInput, Radio, cookie} from 'vux'
+    import {cookie, XButton, Grid, GridItem} from 'vux'
 
     export default {
         name: 'login',
-        directives: {
-            TransferDom
-        },
-
         data() {
             return {
-                show_winner_box: false,
-                show_money_type: false,
-                deposit: false,
-                deposit_option: '支付宝',
-                get_money: false,
-                options: ['支付宝'],
-                type: '1',
+                user:{}
             }
         },
         created: function (event) {
             this.$store.state.show_menu = true
-
+            this.axios.get(this.$store.state.base_url + 'user/info/').then((response) => {
+                    this.user = response;
+                }
+            );
         },
 
         methods: {
             logout() {
                 this.$store.state.show_menu = false
-                cookie.remove('tztoken');
-                this.$store.state.user.id = '';
-                this.$store.state.user.invite_code = '';
-                this.$store.state.user.tel = '';
-                this.$store.state.user.nickname = '';
                 this.$router.push({
                     name: 'Login',
                 })
@@ -171,7 +145,7 @@
 
         },
         components: {
-            Cell, Group, CellBox, Badge, Popup, XSwitch, TransferDom, XInput, XButton, Radio
+            cookie, XButton, Grid, GridItem
         }
     }
 </script>

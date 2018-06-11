@@ -73,16 +73,20 @@
         <!--</div>-->
         <div>
             <div style="margin: 10px;overflow: hidden;" @click="go_room(room.id)" v-for="room in rooms">
-                <masker style="border-radius: 2px;" color="F9C90C" :opacity="0.8">
-                    <div class="m-img" :style="'background-image:url('+ room.pic +')'"></div>
-                    <div slot="content" class="m-title">
-                        <h3>{{room.name}}</h3>
-                        <br/>
-                        <span class="m-time">房间号：{{room.id}} </span>
-                        <span class="m-time">人数：{{room.current_count}}/{{room.max_count}} </span>
-                        <span class="m-time">报名费：{{room.apply_money}} </span>
+                <group class="hot" style="background: #d9dfe224">
+                    <div style="margin: 10px;overflow: hidden;" @click="go_room(room.id)" v-for="room in rooms">
+                        <masker style="border-radius: 2px;" opacity="0" >
+                            <div class="m-img" :style="'background-image:url('+ room.pic +')'"></div>
+                            <div slot="content" class="m-title">
+                                <h3>{{room.name}}</h3>
+                                <br/>
+                                <span class="m-time">房间号：{{room.id}} </span>
+                                <span class="m-time">人数：{{room.current_count}}/{{room.max_count}} </span>
+                                <span class="m-time">报名卡：{{room.apply_money}}张</span>
+                            </div>
+                        </masker>
                     </div>
-                </masker>
+                </group>
             </div>
 
         </div>

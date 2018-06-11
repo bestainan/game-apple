@@ -73,6 +73,9 @@
     .open-qrcode {
         padding: 15px;
     }
+    .vux-header{
+        display: none !;
+    }
 </style>
 <template>
     <div class="invite-box">

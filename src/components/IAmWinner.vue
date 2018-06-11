@@ -1,129 +1,74 @@
-<style scoped>
-    .room-info-box .weui-tabbar__label {
-        background: gold;
-        color: #797979;
-        font-size: 22px;
+<style>
+    .weui-grids {
+        padding: 20px;
     }
 
-    .room-info-box .weui-tabbar:before {
-        border-top: 0;
+    .tz-input {
+        border: 1px solid #abb4c3;
+        margin-bottom: 20px;
+        color: #333;
     }
 
-    .weui-grids:before, .weui-grids:after, .weui-grid:before, .weui-grid:after {
-        border: none;
+    .tz-input img {
+        padding-right: 10px;
+        display: block;
+        width: 20px;
     }
+    .desc p {
+        margin: 0;
 
-    .weui-grid:active {
-        background: #fcf9fe;
     }
-
-    .progressContainer {
-        height: 20px;
-        width: 96%;
-        border-radius: 10px;
-        background-color: #ddd;
-        margin-left: 2%;
+    #app .vux-header {
+        background-color: #fec142 !important;
     }
-
-    .progress {
-        background-color: #1C8DE0;
-        border-radius: 10px;
-        height: 20px;
-        line-height: 20px;
-    }
-
-    b {
-        color: #fff;
-        font-weight: 100;
-        font-size: 12px;
-        position: absolute;
-        left: 40%;
-    }
-
-    .btns {
-        margin-top: 20px;
-    }
-
-    .wenjian {
-        font-size: 18px;
-        color: #bfbfbf;
-    }
-
-    .gouxuan {
-        font-size: 15px;
-        color: #70C34C;
-        float: right;
-        margin-top: 6px;
-    }
-
-    .chahao {
-        font-size: 16px;
-        color: #bfbfbf;
-        float: right;
-        margin-top: 6px;
-    }
-
-    .ul-class {
-        width: 400px;
-        margin-top: 10px;
+    #app > div.create-room-box > div.form > div.selected-game > div > div.vux-cell-bd.vux-cell-primary > p > label{
+        padding-left: 34px !important;
+        color: #757575 !important;
     }
 </style>
 <template>
-    <div id="winner-box">
-        <grid>
-            <grid-item>
-                <group>
-                    <x-input type="tel" label-width="6em" title="房间号" v-model="submit_form.room_id"></x-input>
-                    <x-input type="tel" label-width="6em" title="昵称" v-model="submit_form.name"></x-input>
-                </group>
-            </grid-item>
-        </grid>
-
-        <ul v-for="item in imgList" class="ul-class" style="text-align: center;padding-left: 0;">
-            <i class="iconfont icon-wenjian wenjian"></i>
-            <span v-text="item.name" @click=nameClick(item.file)></span>
-            <span v-on:mouseenter="mouseenter($event)" v-on:mouseleave="mouseleave($event)">
-            <i class="iconfont icon-gouxuan gouxuan" style="display: inline-block;"></i>
-            <i class="iconfont icon-chahao chahao" :img-url="item.imageUrl" style="display: none;" @click="deleteImg($event)"></i>
-          </span>
-        </ul>
+    <div class="room-info-box">
+        <div>
+            <swiper :list="banner_list" :auto="true" :loop="true"></swiper>
+        </div>
+        <div style="padding: 20px;">
+            <x-input class="tz-input" v-model="form.room_id" type="text" placeholder="请输入房间号码"></x-input>
+            <x-input class="tz-input" v-model="form.name" type="text" placeholder="请输入游戏ID"></x-input>
+        </div>
+        <img :src="form.img" alt="">
         <div class="progressContainer" :style="{display: display}">
             <div class="progress" :style="{width:progress+'%'}">
                 <b>{{progress}}%</b>
             </div>
         </div>
-        <div style="text-align: center">
-            <img :src="submit_form.img" alt="" style="width: 30%;">
-        </div>
+
         <div class="btns" style="text-align: center;">
-            <div id="picker" style="width: 200px">选择文件</div>
+            <div id="picker" style="width: 200px;color: white;">选择文件</div>
         </div>
 
         <vue-upload-web :url="cdnUrl" :form-data="cdnParams" :accept="accept" :key-generator="keyGenerator"
                         @progress="uploadProgress" @success="handleSuccess" @before="beforeUpload"
                         @error="error" @complete="handleComplete" upload-button=".btns" :multiple=true>
         </vue-upload-web>
-        <tabbar style="position: fixed;" @click.native="submit">
-            <tabbar-item style="border-right: 1px solid #fff;">
-                <span slot="label" style="font-size: 20px;" >提交审核</span>
-            </tabbar-item>
-        </tabbar>
+        <div class="desc" style="padding: 20px;">
+            <p>asdasdaksdjhkaj</p>
+            <p>asdasdaksdjhkaj</p>
+            <p>asdasdaksdjhkaj</p>
+        </div>
+        <x-button @click.native="submit" class="login-button" style="width: 228px;height: 42px;font-size: 15px;background-color: #ffc107;color: #ffffff;">上传凭证</x-button>
+
     </div>
 </template>
 
-
 <script>
-    import {XButton, XInput, ButtonTab, ButtonTabItem, GridItem, Grid, Group, Tabbar, TabbarItem} from 'vux'
-
+    import {Grid, GridItem, Toast, Tabbar, TabbarItem, Radio, Group, GroupTitle, Popup, XButton, Swiper, SwiperItem, XInput} from 'vux'
 
     export default {
-        name: 'app',
-        components: {
-            XButton, XInput, ButtonTab, ButtonTabItem, GridItem, Grid, Group, Tabbar, TabbarItem
-        },
+        name: 'login',
         data() {
             return {
-                submit_form: {
+                banner_list: [],
+                form: {
                     room_id: 0,
                     name: '',
                     img: '',
@@ -146,34 +91,38 @@
                     chunk: 0,
                     chunks: 1
                 },
-
-            };
+            }
         },
         mounted() {
-            // this.$store.state.show_menu = true
+            this.$store.state.show_menu =  true
+            this.axios.get(this.$store.state.base_url + 'game/banners/').then((response) => {
+                    this.banner_list = response.data
+                }
+            )
         },
         methods: {
             submit() {
-                if(!this.submit_form.room_id){
+                if (!this.form.room_id) {
                     this.set_error_msg('房间号不能为空')
                     return false
                 }
-                if(!this.submit_form.name){
+                if (!this.form.name) {
                     this.set_error_msg('游戏昵称不能为空')
                     return false
                 }
-                if(!this.submit_form.img){
+                if (!this.form.img) {
                     this.set_error_msg('请上传获胜截图')
                     return false
                 }
                 this.$store.state.show_menu = false
                 let data = new FormData()
-                data.append('room_id', this.submit_form.room_id)
-                data.append('name', this.submit_form.name)
-                data.append('img', this.submit_form.img)
-                console.log(this.submit_form)
+                data.append('room_id', this.form.room_id)
+                data.append('name', this.form.name)
+                data.append('img', this.form.img)
                 this.axios.post(this.$store.state.base_url + 'game/winner/', data)
                 .then((response) => {
+                    console.log(response)
+                    this.form.img =
                         this.set_error_msg('已提交等待审核')
                     }
                 ).catch(function (error) {
@@ -181,13 +130,14 @@
                 })
             },
             handleSuccess(file, res) {
-                this.submit_form.img = res.url
+                this.form.img = res.url
                 const imageUrl = res.url
                 this.imgList.push({
                     imageUrl: imageUrl,
                     name: file.name,
                     file: file
                 });
+                console.log(this.imgList)
             },
             beforeUpload(file) {
 
@@ -221,6 +171,12 @@
             },
             nameClick(file) {
             }
+        },
+        components: {
+            Grid, GridItem, Tabbar, TabbarItem, Radio, Group, Popup, XButton, Swiper, SwiperItem, GroupTitle, Toast, XInput
         }
+
     }
 </script>
+
+

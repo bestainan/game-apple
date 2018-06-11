@@ -73,9 +73,11 @@
     .weui-cell__bd p {
         margin: 0;
     }
-    .vux-header{
-        display: block !important;
-    }
+
+    /*.vux-header {*/
+        /*display: block !important;*/
+    /*}*/
+
     #title .weui-cell {
         height: 30px;
     }
@@ -112,41 +114,52 @@
 
     #app .vux-header {
         background-color: #fec142 !important;
+        display: block !important;
     }
 
     .weui-grid:after {
         border: none !important;
     }
-    .room-info{
+
+    .room-info {
         border-top: 10px solid #ececec;
     }
-    .weui-grid{
+
+    .weui-grid {
         text-align: center;
         padding: 15px;
         font-size: 18px;
         color: #999999;
     }
-    .rule{
+
+    .rule {
         border-top: 10px solid #ececec;
     }
-    .weui-cells.vux-no-group-title{
+
+    .weui-cells.vux-no-group-title {
         margin-top: 0;
         padding: 0 15px;
     }
-    .weui-cells:after{
+
+    .weui-cells:after {
         border-bottom: 0 !important;
     }
-    .weui-cells__title{
+
+    .weui-cells__title {
         font-size: 20px !important;
         color: #333 !important;
     }
 
+    .vux-swiper-desc {
+        display: none;
+
+    }
 </style>
 <template>
     <div class="room-info-box">
         <div>
             <div>
-                <swiper :list="[{url: '',img: data.pic,title: data.name}]" :auto="true" :loop="true"></swiper>
+                <swiper :list="[{url: '',img: data.pic}]" :auto="true" :loop="true"></swiper>
             </div>
             <div class="room-info">
                 <grid>
@@ -154,7 +167,7 @@
                         状态:<br>{{data.status}}
                     </grid-item>
                     <grid-item key="2">
-                        报名费:<br>{{data.apply_money}}
+                        报名卡:<br>{{data.apply_money}}
                     </grid-item>
                 </grid>
             </div>
@@ -172,15 +185,6 @@
                     <p style="color: #999999">{{data.des}}</p>
                 </div>
             </group>
-            <!--<group class="rank">-->
-                <!--<group-title>排行</group-title>-->
-                <!--<div>-->
-                    <!--<p v-for="item in data.rank">-->
-                        <!--<span>{{item.name}}</span>-->
-                        <!--<span>第{{item.index}}名</span>-->
-                    <!--</p>-->
-                <!--</div>-->
-            <!--</group>-->
             <tabbar style="position: fixed;">
                 <tabbar-item v-if='!data.has_apply' style="border-right: 1px solid #fff;" @click.native="show_apply=true">
                     <span slot="label" style="color: white;font-size: 20px;">立即报名</span>
@@ -214,7 +218,7 @@
     import {Grid, GridItem, Toast, Tabbar, TabbarItem, Radio, Group, GroupTitle, Popup, XButton, Swiper, SwiperItem, XInput, cookie} from 'vux'
 
     export default {
-        name: 'login',
+        name: 'roomInfo',
         data() {
             return {
                 data: {},
@@ -233,10 +237,12 @@
         },
         mounted() {
             this.$store.state.show_menu = false
+
             this.room_id = this.$route.params.room_id;
-            let token = cookie.get('token')
-            this.axios.get(this.$store.state.base_url + 'game/room/?room_id=' + this.room_id + '&token=' + token).then((response) => {
-                    this.data = response.data
+            this.axios.get(this.$store.state.base_url + 'game/room/?room_id=' + this.room_id).then((response) => {
+                    this.data = response
+                    console.log(this.data)
+                    document.title = this.data.name;
                 }
             )
         },
@@ -254,7 +260,7 @@
                 data.append('room_id', this.room_id)
                 data.append('user_id', this.$store.state.user.id)
                 data.append('name', this.game_nickname)
-                this.axios.post(this.$store.state.base_url + 'game/room_apply/alipay/', data).then((response) => {
+                this.axios.post(this.$store.state.base_url + 'game/apply/', data).then((response) => {
                         let res = response.data;
                         if (res.code !== 1) {
                             this.set_error_msg(res.msg)

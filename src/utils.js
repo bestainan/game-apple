@@ -1,5 +1,6 @@
 import store from './store/index.js'
 import {cookie} from 'vux'
+
 const set_error_msg = function (msg) {
     store.state.error_msg = msg;
     store.state.show_error_msg = true;
@@ -52,35 +53,35 @@ import axios from 'axios'
 //     "http://api.paquapp.com",
 // ]
 //
-// axios.defaults.withCredentials = true
-axios.interceptors.request.use(
-    config => {
-        if (config.method === 'post' || config.method === 'patch') {
-            config.data.append('tztoken', cookie.get('tztoken'))
-        } else if (config.method === 'get' || config.method === 'delete') {
-            console.log(config.params);
-            config.params = {
-                tztoken: cookie.get('tztoken'),
-                ...config.params
-            }
-        }
-        return config
-    }, function (error) {
-        return Promise.reject(error)
-    }
-)
+// axios.interceptors.request.use(
+//     config => {
+//         if (config.method === 'post' || config.method === 'patch') {
+//             config.data.append('tztoken', cookie.get('tztoken'))
+//         } else if (config.method === 'get' || config.method === 'delete') {
+//             config.params = {
+//                 tztoken: cookie.get('tztoken'),
+//                 ...config.params
+//             }
+//         }
+//         return config
+//     }, function (error) {
+//         return Promise.reject(error)
+//     }
+// )
 import router from './router'
 
 axios.interceptors.response.use((response) => {
     let data = response.data
-    if (data.code === 10001){
+    console.log(response)
+    if (data.code === 10001) {
         router.push({
             name: 'Login',
         })
     }
     return data
 
-}, (err) => {})
+}, (err) => {
+})
 // const ChangePage = function (val) {
 //     store.state.offset = (val-1) * 10;
 // }

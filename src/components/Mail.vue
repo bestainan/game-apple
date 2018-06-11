@@ -1,30 +1,58 @@
 <style>
-    .weui-media-box__info{
-        padding:0;
+    #app .vux-header {
+        background-color: #fec142 !important;
     }
-    .weui-media-box__title{
-        margin-top:0;
+
+    p {
+        margin: 0;
     }
-    /*.weui-media-box{*/
-    /*padding-top:0 !important;*/
-    /*padding-bottom:0 !important;*/
-    /*}*/
+
+    .Mail-box {
+        padding: 15px;
+        background: #eee;
+    }
+    .item{
+        padding: 15px;
+        background: #fff;
+        border-radius: 3px;
+        margin-bottom: 15px;
+    }
+    .title{
+        font-size: 16px;
+    }
+
+    .content{
+        font-size: 14px;
+        color: #999;
+    }
+    html{
+        background: #eee !important;
+    }
+    .time{
+        font-size: 12px;
+        margin-top: 10px;
+        color: #999;
+
+    }
+    #app .vux-header {
+        background-color: #fec142 !important;
+        display: block !important;
+    }
 </style>
 <template>
     <div class="Mail-box">
-        <!--<button-tab>-->
-            <!--<button-tab-item selected @on-item-click="bank_type='bank'">所有</button-tab-item>-->
-            <!--<button-tab-item @on-item-click="bank_type='bank'">未读</button-tab-item>-->
-        <!--</button-tab>-->
-
-        <div style="margin-top: 15px; margin-bottom:50px;">
-            <panel :list="list" :type="type" @on-img-error="onImgError"></panel>
+        <div style=" margin-bottom:50px;">
+            <div class="item" v-for="item in list">
+                <p class="title">{{item.title}}</p>
+                <p class="content">{{item.desc}}</p>
+                <!--<p class="time">{{item.meta.date}}</p>-->
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    import {ButtonTab, ButtonTabItem, Panel, Group, Radio} from 'vux'
+    import {ButtonTab, ButtonTabItem, Group, Radio} from 'vux'
 
     export default {
         name: 'Mail',
@@ -66,7 +94,7 @@
             }
         },
         components: {
-            ButtonTab, ButtonTabItem, Panel, Group, Radio
+            ButtonTab, ButtonTabItem, Group, Radio
         }
     }
 </script>

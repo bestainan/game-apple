@@ -10,6 +10,37 @@
         border-radius: 2px;
     }
 
+    .m-title {
+        color: #fff;
+        text-align: center;
+        text-shadow: 0 0 2px rgba(0, 0, 0, .5);
+        font-weight: 500;
+        font-size: 16px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100%;
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .m-time {
+        font-size: 16px ;
+        color: white !important;
+    }
+
+
+    .m-title h3 {
+        font-size: 28px;
+        color: white;
+    }
+
+    .m-title span {
+        color: #333;
+        font-size: 18px;
+    }
+
     .weui-label {
         font-size: 30px;
     }
@@ -54,6 +85,7 @@
         border-bottom: none !important;
     }
 
+
     .weui-cells__title {
         font-size: 20px !important;
         color: #666 !important;
@@ -72,61 +104,35 @@
     .weui-cells, .weui-cells, .vux-no-group-title {
         margin-top: 0 !important;
     }
-
-    .vux-header {
+    .vux-header{
         display: none !important;
     }
 
-    .hot .item {
-        margin: 10px;
-        height: 110px;
-    }
-
-    .hot .item p {
-        font-size: 24px;
-        line-height: 24px;
-        margin: 0;
-        text-align: center;
-        padding-top: 25px;
-        color: #fff;
-    }
-    .hot .item p span{
-        font-size: 16px;
-        color: #fff;
-
-    }
 </style>
 <template>
     <div class="home-box">
         <div>
             <swiper :list="banner_list" :auto="true" :loop="true"></swiper>
         </div>
-        <group style="border-top: 10px solid #ececec;background: #d9dfe224">
-            <group-title color="#333">游戏分类</group-title>
-            <grid class="game-box" :cols="4" style="padding: 15px;">
-                <grid-item :label="item.name" @click.native="go_rooms(item.id)" :key="item.id" v-for="item in game_list">
-                    <img slot="icon" :src="item.pic">
-                </grid-item>
-            </grid>
-        </group>
-        <group class="hot" style="border-top: 10px solid #ececec">
-            <group-title color="#333">热门房间</group-title>
-
-            <!--<div class="item" @click="go_room(room.id)" v-for="room in rooms" style="background-image: url('https://ss3.baidu.com/-rVXeDTa2gU2pMbgoY3K/it/u=885825446,1632882213&fm=202&mola=new&crop=v1')" >-->
-            <div class="item" @click="go_room(room.id)" v-for="room in rooms" :style="{backgroundImage: 'url(' + room.pic + ')'}" >
-                <p>{{room.name}}</p>
-                <p>
-                    <span class="m-time">房间号：{{room.id}} </span>
-                    <span class="m-time">人数：{{room.current_count}}/{{room.max_count}} </span>
-                    <span class="m-time">报名卡：{{room.apply_money}}张</span>
-                </p>
+        <group class="hot" style="background: #d9dfe224">
+            <div style="margin: 10px;overflow: hidden;" @click="go_room(room.id)" v-for="room in rooms">
+                <masker style="border-radius: 2px;" color="#000" :opacity="0.3">
+                    <div class="m-img" :style="'background-image:url('+ room.pic +')'"></div>
+                    <div slot="content" class="m-title">
+                        <h3>{{room.name}}</h3>
+                        <br/>
+                        <span class="m-time">房间号：{{room.id}} </span>
+                        <span class="m-time">人数：{{room.current_count}}/{{room.max_count}} </span>
+                        <span class="m-time">报名卡：{{room.apply_money}}张</span>
+                    </div>
+                </masker>
             </div>
         </group>
     </div>
 </template>
 
 <script>
-    import {Grid, GridItem, Swiper, SwiperItem, Group, GroupTitle, Masker,cookie} from 'vux'
+    import {Grid, GridItem, Swiper, SwiperItem, Group, GroupTitle, Masker} from 'vux'
 
     export default {
         name: 'login',
@@ -143,7 +149,7 @@
                     this.banner_list = response.data
                 }
             )
-            this.axios.get(this.$store.state.base_url + 'game/games/').then((response) => {
+            this.axios.get(this.$store.state.base_url + 'game/games/?hot=1').then((response) => {
                     this.game_list = response.data
                 }
             )

@@ -1,32 +1,32 @@
-<style scoped="">
-    .login-box {
+<style>
+    #login-box {
         padding: 10%;
         text-align: center;
         margin-top: 15%;
     }
 
-    .login-box .tz-input {
+    #login-box .tz-input {
         border: 1px solid #abb4c3;
         margin-bottom: 20px;
         color: #333;
     }
 
-    .login-box .tz-input img {
+    #login-box .tz-input img {
         padding-right: 10px;
         display: block;
         width: 20px;
     }
 
-    .login-box .login-button {
+    #login-box .login-button {
         background-color: #ffc107;
         margin-top: 20px;
     }
 
-    .login-box .register-button {
+    #login-box .register-button {
         background-color: #10aeff;
     }
 
-    .login-box .logo {
+    #login-box .logo {
         width: 50%;
         border-radius: 50%;
         margin-bottom: 40px;
@@ -34,23 +34,23 @@
 
 </style>
 <template>
-    <div class="login-box">
+    <div id="login-box">
         <img class="logo" src="../../src/assets/logo.png" alt="">
-        <x-input class="tz-input" type="tel" placeholder="请输入手机号">
+        <x-input class="tz-input" v-model="game_tel" type="tel" placeholder="请输入手机号">
             <img slot="label" src="../../src/assets/account.png" width="24" height="24">
         </x-input>
 
-        <x-input class="tz-input" type="password" placeholder="请输入密码">
+        <x-input class="tz-input" v-model="game_password" type="password" placeholder="请输入密码">
             <img slot="label" src="../../src/assets/password.png" width="24" height="24">
         </x-input>
         <p style="text-align: right"><u style="color: red;">忘记密码</u></p>
-        <x-button class="login-button" type="primary">登录</x-button>
-        <x-button class="register-button" type="primary">立即注册</x-button>
+        <x-button class="login-button" @click.native="login" type="primary">登录</x-button>
+        <x-button class="register-button" @click.native="go_register" type="primary">立即注册</x-button>
     </div>
 </template>
 
 <script>
-    import {XInput, XButton} from 'vux'
+    import {XInput, XButton,cookie} from 'vux'
 
     export default {
         name: 'login',
@@ -61,25 +61,24 @@
             }
         },
         created: function (event) {
+            this.$store.state.show_menu = false
         },
         methods: {
             login() {
-                this.$store.state.show_menu = false
                 let data = new FormData()
+                if (!this.game_tel || !this.game_password) {
+                    this.set_error_msg('请输入账号密码')
+                    return false
+                }
                 data.append('tel', this.game_tel)
                 data.append('password', this.game_password)
                 this.axios.post(this.$store.state.base_url + 'user/login/', data)
                 .then((response) => {
-                        if (response.code === 404) {
+                        let data = response
+                        if (data.code === 404) {
                             this.set_error_msg(response.msg)
                             return false
                         }
-                        let tztoken = response.data.tztoken;
-                        cookie.set('tztoken', tztoken, 30)
-                        this.$store.state.user.id = response.data.id
-                        this.$store.state.user.invite_code = response.data.invite_code
-                        this.$store.state.user.tel = response.data.tel
-                        this.$store.state.user.nickname = response.data.nickname
                         this.$router.push({
                             name: 'Home',
                         })

@@ -1,75 +1,96 @@
 <style>
-
-    .m-img {
-        padding-bottom: 33%;
-        display: block;
-        position: relative;
-        max-width: 100%;
-        background-size: cover;
-        background-position: center center;
-        cursor: pointer;
-        border-radius: 2px;
+    #app .vux-header {
+        background-color: #fec142 !important;
     }
 
-    .m-title {
-        color: #fff;
-        text-align: center;
-        text-shadow: 0 0 2px rgba(0, 0, 0, .5);
-        font-weight: 500;
-        font-size: 16px;
-        position: absolute;
-        left: 0;
-        right: 0;
-        width: 100%;
-        text-align: center;
-        top: 50%;
-        transform: translateY(-50%);
+    html {
+        background: #f0f0f0;
     }
 
-    .m-time {
-        font-size: 12px;
-        padding-top: 4px;
-        border-top: 1px solid #f0f0f0;
-        display: inline-block;
-        margin-top: 5px;
-    }
-
-    .m-title h3 {
-        font-size: 20px;
-    }
-
-    .m-title span {
-        color: #333;
-        font-size: 14px;
-    }
-
-    .weui-label {
-        font-size: 30px;
-    }
-
-    .weui-cell__primary {
-        font-size: 34px;
-        font-weight: bold;
-    }
-
-    .vux-x-input.weui-cell {
-        padding-left: 0;
-        padding-right: 0;
-
-    }
-
-    .weui-cell__bd p {
+    p {
         margin: 0;
+        padding: 0 15px;
+        line-height: 2;
     }
 
-    #title .weui-cell {
-        height: 30px;
+    .history-box {
+        padding: 20px;
     }
+
+    .left {
+        padding: 15px;
+        float: left;
+    }
+
+    .right {
+        float: left;
+        padding-top: 15px;
+        width: 55%;
+    }
+
+    img {
+        width: 120px;
+    }
+
+    .top {
+        border-bottom: 1px solid rgba(0, 0, 0, .15);
+    }
+
+    .box {
+        background: #fff;
+        border-radius: 5px;
+    }
+
+    .right p {
+        padding: 0;
+        line-height: 1.5;
+    }
+
+    .right p .item {
+        font-size: 13px;
+        color: #999;
+        width: 80px;
+        display: inline-block;
+    }
+    .right p .item .title{
+        width: 60px;
+        display: inline-block;
+    }
+    .status{
+        text-align: right;
+        display: inline-block;
+        width: 50%;
+        font-size: 13px;
+        color: #999;
+    }
+     .box{
+         margin-bottom: 10px;
+     }
 </style>
 <template>
-    <div class="history-box">
-        <div>
-            <form-preview  v-for="item in datas" :header-label="'报名费'" :key="item.id" :header-value="'¥'+item.money" :body-items="item.value_list" :footer-buttons="go_info" :name="item.room_id"></form-preview>
+    <div class="history-box" style="background: #f0f0f0;">
+        <div class="box" v-for="item in datas" @click.native="go_room(item.room_id)">
+            <p class='top'>报名时间：{{item.create_time}}</p>
+            <div class="content">
+                <div class="left">
+                    <img src="/static/img/history-wangzhe.jpg" alt="">
+                </div>
+                <div class="right">
+                    <p>
+                        <span style="font-size: 18px;color: #333;">{{item.game_name}}</span>
+                        <span  class="status">{{item.status}}</span>
+                    </p>
+                    <p style="padding-top: 5px;">
+
+                        <span class="item"><span class="title">人数：</span>{{item.max_count}}</span>
+                    </p>
+                    <p>
+                        <span class="item"><span class="title">房间号：</span>{{item.room_id}}</span>
+                        <span class="item"><span class="title">报名卡：</span>{{item.apply_money}}</span>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -82,7 +103,7 @@
         data() {
             return {
                 list: [],
-                datas:[],
+                datas: [],
                 go_info: [{
                     style: 'primary',
                     text: '详情',
@@ -101,10 +122,18 @@
             this.$store.state.show_menu = true
             this.axios.get(this.$store.state.base_url + 'game/apply/history/').then((response) => {
                     this.datas = response.data
+                    console.log(this.datas);
                 }
             )
         },
-        methods: {},
+        methods: {
+            go_room(room_id) {
+                this.$router.push({
+                    name: 'RoomInfo',
+                    params: {room_id: room_id}
+                })
+            }
+        },
         components: {
             FormPreview
         }
