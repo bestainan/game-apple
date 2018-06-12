@@ -34,20 +34,26 @@
     export default {
         name: 'qr_code',
         data() {
-            return {}
+            return {
+                user:{},
+            }
         },
         created: function (event) {
             this.$store.state.show_menu = true
         },
         mounted() {
-            this.qrcode()
+            this.axios.get(this.$store.state.base_url + 'user/info/').then((response) => {
+                    this.user = response.data;
+                    this.qrcode()
+                }
+            );
         },
         methods: {
             qrcode() {
                 let qrcode = new QRCode('qrcode', {
                     width: 120,
                     height: 120,
-                    text: 'http://wz.jiuxingjinfu.cn/register/' + '?invite_code='+this.$store.state.user.invite_code // 二维码内容
+                    text: 'http://wz.jiuxingjinfu.cn/register/' + '?invite_code='+this.user.invite_code  // 二维码内容
                     // render: 'canvas' // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
                     // background: '#f0f'
                     // foreground: '#ff0'

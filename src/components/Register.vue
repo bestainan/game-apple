@@ -99,11 +99,13 @@
                     tel: '',
                     password1: '',
                     password2: '',
+                    invite_code:'',
                 }
 
             }
         },
         mounted: function () {
+            this.invite_code = this.$route.query.invite_code
         },
         methods: {
             times() {
@@ -132,10 +134,6 @@
                         if (data.code !== 1) {
                             this.set_error_msg(data.msg)
                         } else {
-                            console.log(data.data)
-                            let token = data.data.token;
-                            this.$store.state.user.tel = data.data.tel
-                            this.$store.state.user.id = data.data.id
                             this.$router.push({
                                 name: 'Home',
                             })
